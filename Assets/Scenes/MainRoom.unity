@@ -820,7 +820,6 @@ GameObject:
   - component: {fileID: 337145940}
   - component: {fileID: 337145943}
   - component: {fileID: 337145944}
-  - component: {fileID: 337145945}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -895,12 +894,12 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 337145939}
   serializedVersion: 2
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 1, z: 0}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 1158984187}
+  m_Father: {fileID: 884187860}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &337145943
 MonoBehaviour:
@@ -2830,10 +2829,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: Computer1
       objectReference: {fileID: 0}
-    - target: {fileID: 919132149155446097, guid: 7b6d35f81526a944b9149f24fd036036, type: 3}
-      propertyPath: m_Layer
-      value: 7
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -3988,11 +3983,10 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
-  - component: {fileID: 2125970928}
-  - component: {fileID: 2125970927}
-  - component: {fileID: 2125970926}
+  - component: {fileID: 2021603508}
+  - component: {fileID: 2021603509}
   m_Layer: 0
-  m_Name: EventSystem
+  m_Name: MeditationRoomBuzzingSource
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -4266,8 +4260,3 @@ SceneRoots:
   - {fileID: 2135083602}
   - {fileID: 468705668}
   - {fileID: 1184731933}
-  - {fileID: 1914969355}
-  - {fileID: 1352073749}
-  - {fileID: 1325075160}
-  - {fileID: 2125970928}
-  - {fileID: 421123690}
