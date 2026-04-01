@@ -3,29 +3,29 @@ using UnityEngine;
 public class PlayerMovement: MonoBehaviour
 {
     public float speed = 5f;
-    public float mouseSensitivity = 250f;
 
-    private CharacterController controller;
-
-    float yRotation = 0f;
+    private CharacterController _controller;
+    private Transform _cameraTransform;
 
     void Start()
     {
-        controller = GetComponent<CharacterController>();
-        Cursor.lockState = CursorLockMode.Locked;
+        _controller = GetComponent<CharacterController>();
+        _cameraTransform = Camera.main.transform;
     }
 
     void Update()
     {
-        // for 3rd person pov: mouse rotation
-        float mouseX = Input.GetAxis("Mouse X") * mouseSensitivity * Time.deltaTime;
-        transform.Rotate(Vector3.up * mouseX);
-
-        // movement
         float h = Input.GetAxis("Horizontal");
         float v = Input.GetAxis("Vertical");
 
-        Vector3 move = transform.right * h + transform.forward * v;
-        controller.Move(move * speed * Time.deltaTime);
+        Vector3 camForward = _cameraTransform.forward;
+        Vector3 camRight = _cameraTransform.right;
+        camForward.y = 0f;
+        camRight.y = 0f;
+        camForward.Normalize();
+        camRight.Normalize();
+
+        Vector3 move = camForward * v + camRight * h;
+        _controller.Move(move * speed * Time.deltaTime);
     }
 }
