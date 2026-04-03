@@ -1,6 +1,7 @@
 using UnityEngine;
 using UnityEngine.Rendering;
 using UnityEngine.Rendering.Universal;
+using UnityEngine.Rendering.RenderGraphModule;
 
 public class VertexSnapRenderFeature : ScriptableRendererFeature
 {
@@ -62,6 +63,10 @@ public class VertexSnapRenderFeature : ScriptableRendererFeature
         {
             // RTHandles are reused; no manual release needed
         }
+        public override void RecordRenderGraph(RenderGraph renderGraph, ContextContainer frameData)
+        {
+        }
+        
     }
 
     private VertexSnapPass snapPass;
@@ -81,4 +86,6 @@ public class VertexSnapRenderFeature : ScriptableRendererFeature
 
         renderer.EnqueuePass(snapPass);
     }
+
+    
 }
