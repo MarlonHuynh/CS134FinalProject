@@ -42,35 +42,6 @@ MonoBehaviour:
   - {fileID: 5779495654362693182}
   - {fileID: 8312389308717245622}
   - {fileID: -7621044546411805643}
-  - {fileID: 569839869201147869}
---- !u!114 &569839869201147869
-MonoBehaviour:
-  m_ObjectHideFlags: 3
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c5e1dc532bcb41949b58bc4f2abfbb7e, type: 3}
-  m_Name: LensDistortion
-  m_EditorClassIdentifier: Unity.RenderPipelines.Universal.Runtime::UnityEngine.Rendering.Universal.LensDistortion
-  active: 1
-  intensity:
-    m_OverrideState: 1
-    m_Value: 0.25
-  xMultiplier:
-    m_OverrideState: 0
-    m_Value: 1
-  yMultiplier:
-    m_OverrideState: 0
-    m_Value: 1
-  center:
-    m_OverrideState: 0
-    m_Value: {x: 0.5, y: 0.5}
-  scale:
-    m_OverrideState: 0
-    m_Value: 1
 --- !u!114 &5779495654362693182
 MonoBehaviour:
   m_ObjectHideFlags: 3
@@ -129,12 +100,12 @@ MonoBehaviour:
     m_Value: 1
   threshold:
     m_OverrideState: 1
-    m_Value: 1.1
+    m_Value: 1.2
   intensity:
     m_OverrideState: 1
-    m_Value: 10
+    m_Value: 25
   scatter:
-    m_OverrideState: 0
+    m_OverrideState: 1
     m_Value: 1
   clamp:
     m_OverrideState: 0
