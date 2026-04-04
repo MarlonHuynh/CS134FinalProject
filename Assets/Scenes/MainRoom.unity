@@ -2793,7 +2793,7 @@ MonoBehaviour:
   interactRadius: 2.5
   interactableLayer:
     serializedVersion: 2
-    m_Bits: 0
+    m_Bits: 128
   interactPromptUI: {fileID: 1288347854}
   promptText: {fileID: 1288347853}
   computerView: {fileID: 1288347852}
