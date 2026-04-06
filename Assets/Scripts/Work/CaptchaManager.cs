@@ -21,6 +21,7 @@ public class CaptchaManager : MonoBehaviour
     public Color incorrectColor = Color.red;
     public Color neutralColor = Color.white;
     public Color selectedBorderColor = Color.yellow;
+    private bool _allComplete = false;
 
     [Header("Stage Config")]
     // for each stage, mark which grid indices (0-8) are correct
@@ -47,7 +48,17 @@ public class CaptchaManager : MonoBehaviour
 
     void OnEnable()
     {
-        ResetCaptcha();
+        if (_allComplete)
+        {
+            // show completed state, dont reset
+            instructionText.text = "All tasks complete! Well done.";
+            stageText.text = "Verified";
+            submitButton.interactable = false;
+        }
+        else
+        {
+            LoadStage();
+        }
     }
 
     void ResetCaptcha()
@@ -136,6 +147,7 @@ public class CaptchaManager : MonoBehaviour
         if (_currentStage >= 3)
         {
             // all captchas complete
+            _allComplete = true;
             instructionText.text = "All tasks complete! Well done.";
             stageText.text = "Verified";
             submitButton.interactable = false;
@@ -152,7 +164,7 @@ public class CaptchaManager : MonoBehaviour
         _isAnimating = true;
         submitButton.interactable = false;
 
-        // Flash all images red briefly
+        // flash all images red briefly
         Color[] originalColors = new Color[9];
         for (int i = 0; i < 9; i++)
         {
@@ -162,7 +174,7 @@ public class CaptchaManager : MonoBehaviour
 
         yield return new WaitForSeconds(0.5f);
 
-        // Restore colors and reset selection
+        // restore colors and reset selection
         for (int i = 0; i < 9; i++)
         {
             gridImages[i].color = originalColors[i];
