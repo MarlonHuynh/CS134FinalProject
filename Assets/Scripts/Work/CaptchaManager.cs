@@ -93,6 +93,8 @@ public class CaptchaManager : MonoBehaviour
 
     public void OnGridImageClicked(int index)
     {
+            Debug.Log("Cell clicked: " + index);
+            
         if (_isAnimating) return;
         _selected[index] = !_selected[index];
         SetBorder(index, _selected[index]);
@@ -108,6 +110,8 @@ public class CaptchaManager : MonoBehaviour
 
     public void OnSubmit()
     {
+            Debug.Log("Submit clicked");
+
         if (_isAnimating) return;
 
         bool correct = CheckAnswer();
