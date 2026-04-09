@@ -20,6 +20,12 @@ public class DesktopManager : MonoBehaviour
         ShowDesktop();
     }
 
+    void SwitchTo(GameObject panel)
+    {
+        panel.SetActive(true);
+        SetRaycast(panel, true);
+    }
+
     public void ShowDesktop()
     {
         workPanel.SetActive(false);
@@ -27,17 +33,17 @@ public class DesktopManager : MonoBehaviour
         trashPanel.SetActive(false);
         shopPanel.SetActive(false);
     }
+    void SetRaycast(GameObject panel, bool enabled)
+    {
+        Image img = panel.GetComponent<Image>();
+        if (img != null) img.raycastTarget = enabled;
+    }
 
     public void OpenWork() { SwitchTo(workPanel); }
     public void OpenChat() { SwitchTo(chatPanel); }
     public void OpenTrash() { SwitchTo(trashPanel); }
     public void OpenShop() { SwitchTo(shopPanel); }
 
-    void SwitchTo(GameObject panel)
-    {
-
-        panel.SetActive(true);
-    }
 
     public void AddPoints(int amount)
     {
