@@ -1,5 +1,6 @@
 using UnityEngine;
 using Unity.Collections; 
+using UnityEngine.SceneManagement;
 
 public class PauseScreen : MonoBehaviour
 {
@@ -25,6 +26,11 @@ public class PauseScreen : MonoBehaviour
                 isPaused = false;  
                 Time.timeScale = 1f;
             }
+        }
+
+        if (Input.GetKeyDown(KeyCode.Space)) 
+        {
+            SceneManager.LoadScene("MainMenu");
         }
         
     }
