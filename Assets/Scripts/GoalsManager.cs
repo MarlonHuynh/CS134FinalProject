@@ -1,0 +1,129 @@
+using UnityEngine;
+using UnityEngine.UI; 
+using TMPro;
+using System.Collections;
+
+
+public class GoalsManager : MonoBehaviour
+{
+    public int day; 
+    public TMP_Text dayTextInSleepCutscene;
+    public TMP_Text dayTextInGoalBar;      
+    public TMP_Text goalText;   
+
+    public Image itemUIImage; 
+    public Sprite foodSprite; 
+    public GameObject sleepBG; 
+    public GameObject holdingBG; 
+
+    public bool goalUseComputer, goalEatFood, goalMeditate, goalSleep; 
+    public bool holdingFood; 
+
+    void Start()
+    {
+        holdingFood = false; 
+        day = 1; 
+        goalText.text = "Use Computer"; 
+        resetGoals(); 
+        updateDayText(); 
+        playSleepCutscene_ButDontMarkGoal(); 
+    }
+
+    void Update()
+    {
+        if (Input.GetKeyUp(KeyCode.L))
+        {
+            goalUseComputer = true; 
+            updateGoalText(); 
+        }
+    }
+    void resetGoals()
+    {
+        goalUseComputer = false; 
+        goalEatFood = false; 
+        goalMeditate = false; 
+        goalSleep = false; 
+    }
+
+    void updateDayText()
+    {
+        dayTextInGoalBar.text = "Day " + day; 
+        dayTextInSleepCutscene.text = "Day " + day; 
+    }
+
+    void checkAndProgressDay()
+    {
+        if (goalUseComputer && goalEatFood && goalMeditate && goalSleep){
+            resetGoals(); 
+            updateGoalText(); 
+            day += 1; 
+            updateDayText(); 
+        }
+    }
+
+    void updateGoalText()
+    {
+        if (!goalUseComputer)
+        {
+            goalText.text = "Use Computer"; 
+            return; 
+        }
+        else if (!goalEatFood)
+        {
+            goalText.text = "Eat Food"; 
+            return; 
+        }
+        else if (!goalMeditate)
+        {
+            goalText.text = "Meditate"; 
+            return; 
+        }
+        else if (!goalSleep)
+        {
+            goalText.text = "Sleep"; 
+            return; 
+        }
+    }
+
+    public void playSleepCutscene()
+    {
+        sleepBG.SetActive(true); 
+        StartCoroutine(delayCoroutine(2f)); 
+        goalSleep = true; 
+        checkAndProgressDay(); 
+    }
+
+    public void playSleepCutscene_ButDontMarkGoal()
+    {
+        sleepBG.SetActive(true); 
+        StartCoroutine(delayCoroutine(2f));  
+        updateGoalText(); 
+    }
+    IEnumerator delayCoroutine(float delay)
+    {
+        yield return new WaitForSeconds(delay);  
+        sleepBG.SetActive(false); 
+    }
+
+    public void getFood()
+    {
+        holdingBG.SetActive(true); 
+        itemUIImage.sprite = foodSprite; 
+        holdingFood = true; 
+    }
+
+    public void consumeFood()
+    {
+        holdingBG.SetActive(false); 
+        itemUIImage.sprite = null; 
+        holdingFood = false; 
+        goalEatFood = true; 
+        updateGoalText(); 
+    }
+
+    public void meditate()
+    {
+        goalMeditate = true; 
+        updateGoalText(); 
+    }
+}
