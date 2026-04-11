@@ -3076,7 +3076,7 @@ GameObject:
   - component: {fileID: 516457251}
   - component: {fileID: 516457252}
   m_Layer: 0
-  m_Name: MeditationTriggerCollider
+  m_Name: MeditationRoomTriggerCollider
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -5236,7 +5236,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &872444069
 RectTransform:
   m_ObjectHideFlags: 0
@@ -5793,10 +5793,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::GoalsManager
   day: 1
-  dayText: {fileID: 1174361574}
-  itemUIImage: {fileID: 0}
-  foodSprite: {fileID: 0}
+  dayTextInSleepCutscene: {fileID: 1951507162}
+  dayTextInGoalBar: {fileID: 1174361574}
+  goalText: {fileID: 199265974}
+  itemUIImage: {fileID: 318367482}
+  foodSprite: {fileID: 21300000, guid: 940f12ff7c4985b4392c8fa4c9b1d1e9, type: 3}
   sleepBG: {fileID: 128632661}
+  holdingBG: {fileID: 872444068}
   goalUseComputer: 0
   goalEatFood: 0
   goalMeditate: 0
