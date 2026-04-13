@@ -19,6 +19,7 @@ public class OpenMeditationRoom : MonoBehaviour
     {
         if (Input.GetKeyUp(KeyCode.Z) && !doorMoving)
         {
+            Debug.Log("Moving door!"); 
             if (!doorOpen)
             {
                 StartCoroutine(LerpDoor(openPosition, true));
