@@ -11,46 +11,40 @@ public class CaptchaManager : MonoBehaviour
     public TextMeshProUGUI instructionText;
     public TextMeshProUGUI stageText;
     public Button submitButton;
-    public GameObject gridContainer; // parent of the 9 image buttons
+    public GameObject gridContainer;
 
     [Header("Grid Images")]
-
-    // go back and assign 9 Image components in Inspector after photobashing sprites...need car, tree, and humans
-    public Image[] gridImages = new Image[9]; 
-    public Color correctColor = Color.green;
-    public Color incorrectColor = Color.red;
-    public Color neutralColor = Color.white;
+    public Image[] gridImages = new Image[9];
     public Color selectedBorderColor = Color.yellow;
-    private bool _allComplete = false;
+
+    [Header("Stage Sprites")]
+    public Sprite[] stage0Sprites = new Sprite[9]; // car stage
+    public Sprite[] stage1Sprites = new Sprite[9]; // tree stage
+    public Sprite[] stage2Sprites = new Sprite[9]; // human stage
 
     [Header("Stage Config")]
-    // for each stage, mark which grid indices (0-8) are correct
-    // Stage 0 = Car, Stage 1 = Tree, Stage 2 = Human
     private string[] stageInstructions = {
         "Select all images containing a CAR",
         "Select all images containing a TREE",
         "Select all images containing a HUMAN"
     };
 
-    // which indices are correct for each stage // go back and edit these to match images
+    // which indices are correct for each stage
     private int[][] correctIndices = {
-        // car stage: indices 0, 3, 7 are cars
-        new int[] { 0, 3, 7 },
-        // tree stage: indices 1, 4, 6 are trees
-        new int[] { 1, 4, 6 },
-        // human stage: indices 2, 5, 8 are humans
-        new int[] { 2, 5, 8 }
+        new int[] { 0, 3, 7 },   // car stage
+        new int[] { 1, 4, 6 },   // tree stage
+        new int[] { 2, 5, 8 }    // human stage
     };
 
     private int _currentStage = 0;
     private bool[] _selected = new bool[9];
     private bool _isAnimating = false;
+    private bool _allComplete = false;
 
     void OnEnable()
     {
         if (_allComplete)
         {
-            // show completed state, dont reset
             instructionText.text = "All tasks complete! Well done.";
             stageText.text = "Verified";
             submitButton.interactable = false;
@@ -61,27 +55,42 @@ public class CaptchaManager : MonoBehaviour
         }
     }
 
-    void ResetCaptcha()
-    {
-        _currentStage = 0;
-        LoadStage();
-    }
-
     void LoadStage()
     {
-        // clear selection
         for (int i = 0; i < 9; i++)
         {
             _selected[i] = false;
             SetBorder(i, false);
-            // set placeholder colors: green = correct, red = incorrect for that stage
-            gridImages[i].color = IsCorrectIndex(i) ? correctColor : incorrectColor;
+
+            Sprite[] current = GetCurrentSprites();
+            if (current != null && current[i] != null)
+            {
+                gridImages[i].sprite = current[i];
+                gridImages[i].color = Color.white;
+            }
+            else
+            {
+                // placeholder: green = correct, red = incorrect
+                gridImages[i].sprite = null;
+                gridImages[i].color = IsCorrectIndex(i) ? Color.green : Color.red;
+            }
         }
 
         instructionText.text = stageInstructions[_currentStage];
         stageText.text = "Task " + (_currentStage + 1) + " of 3";
         submitButton.interactable = true;
         _isAnimating = false;
+    }
+
+    Sprite[] GetCurrentSprites()
+    {
+        switch (_currentStage)
+        {
+            case 0: return stage0Sprites;
+            case 1: return stage1Sprites;
+            case 2: return stage2Sprites;
+            default: return null;
+        }
     }
 
     bool IsCorrectIndex(int index)
@@ -100,7 +109,6 @@ public class CaptchaManager : MonoBehaviour
 
     void SetBorder(int index, bool active)
     {
-        // outline component on each image shows selection
         Outline outline = gridImages[index].GetComponent<Outline>();
         if (outline != null)
             outline.enabled = active;
@@ -120,7 +128,6 @@ public class CaptchaManager : MonoBehaviour
 
     bool CheckAnswer()
     {
-        // selected indices must exactly match correct indices
         HashSet<int> selected = new HashSet<int>();
         for (int i = 0; i < 9; i++)
             if (_selected[i]) selected.Add(i);
@@ -134,19 +141,25 @@ public class CaptchaManager : MonoBehaviour
         _isAnimating = true;
         submitButton.interactable = false;
 
-        // flash all correct images bright green
+        // flash correct images green
+        Color[] originalColors = new Color[9];
+        for (int i = 0; i < 9; i++)
+            originalColors[i] = gridImages[i].color;
+
         foreach (int i in correctIndices[_currentStage])
             gridImages[i].color = Color.green;
 
         yield return new WaitForSeconds(0.8f);
 
-        // add point to captcha point tracker
+        // restore colors
+        for (int i = 0; i < 9; i++)
+            gridImages[i].color = originalColors[i];
+
         desktopManager.AddPoints(1);
         _currentStage++;
 
         if (_currentStage >= 3)
         {
-            // all captchas complete
             _allComplete = true;
             instructionText.text = "All tasks complete! Well done.";
             stageText.text = "Verified";
@@ -164,7 +177,7 @@ public class CaptchaManager : MonoBehaviour
         _isAnimating = true;
         submitButton.interactable = false;
 
-        // flash all images red briefly
+        // flash all cells red
         Color[] originalColors = new Color[9];
         for (int i = 0; i < 9; i++)
         {
@@ -174,7 +187,7 @@ public class CaptchaManager : MonoBehaviour
 
         yield return new WaitForSeconds(0.5f);
 
-        // restore colors and reset selection
+        // restore and reset selection
         for (int i = 0; i < 9; i++)
         {
             gridImages[i].color = originalColors[i];
