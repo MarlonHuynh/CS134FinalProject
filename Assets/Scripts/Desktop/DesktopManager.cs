@@ -13,7 +13,7 @@ public class DesktopManager : MonoBehaviour
 
     [Header("Points")]
     public TextMeshProUGUI pointsText;
-    private int captchaPoints = 0;
+    public int captchaPoints = 0;
 
     void Start()
     {

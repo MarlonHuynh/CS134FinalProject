@@ -31,7 +31,7 @@ public class OpenMeditationRoom : MonoBehaviour
         } 
     }
     // Unimplemented yet: For future usage when we need to open door by script
-    void openMeditationDoor()
+    public void openMeditationDoor()
     {
         if (!doorMoving)
         {

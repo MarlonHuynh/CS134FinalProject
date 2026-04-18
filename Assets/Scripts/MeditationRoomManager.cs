@@ -3,6 +3,7 @@ using System.Collections;
 
 public class MeditationRoomManager : MonoBehaviour
 {
+    public OpenMeditationRoom openMeditationRoom; 
     public Material floorMat; 
     public Material wallMat; 
     public Material roofMat;
