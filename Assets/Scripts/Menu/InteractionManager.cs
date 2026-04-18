@@ -18,6 +18,9 @@ public class InteractionManager : MonoBehaviour
 
     private InteractableObject _nearestInteractable;
     private bool _isInteracting = false;
+    [Header("UIs to Disable upon Computer Active")]
+    public PauseScreen pauseScreen; 
+
 
     void Update()
     {
@@ -59,10 +62,14 @@ public class InteractionManager : MonoBehaviour
         _isInteracting = true;
         interactPromptUI.SetActive(false);
         computerView.OpenComputer();
+        // After opening computer, disables the other overlay UIs like goals UI and pause UI
+        pauseScreen.disablePauseScreen(); 
     }
 
     public void ExitInteraction()
     {
         _isInteracting = false;
+        // After closing computer, enable the other otherlay UIs liek goals UI and pause UI
+        pauseScreen.enablePauseScreen(); 
     }
 }
