@@ -3,7 +3,6 @@ using UnityEngine.UI;
 using TMPro;
 using System.Collections;
 
-
 public class GoalsManager : MonoBehaviour
 {
     public int day; 
@@ -18,6 +17,7 @@ public class GoalsManager : MonoBehaviour
 
     public bool goalUseComputer, goalEatFood, goalMeditate, goalSleep; 
     public bool holdingFood; 
+    public GameObject player;
 
     void Start()
     {
@@ -99,10 +99,26 @@ public class GoalsManager : MonoBehaviour
         StartCoroutine(delayCoroutine(2f));  
         updateGoalText(); 
     }
-    IEnumerator delayCoroutine(float delay)
+  IEnumerator delayCoroutine(float delay)
     {
         yield return new WaitForSeconds(delay);  
-        sleepBG.SetActive(false); 
+        sleepBG.SetActive(false);
+
+        if (player != null)
+        {
+            // hide capsule mesh
+            MeshRenderer capsuleMesh = player.GetComponentInChildren<MeshRenderer>();
+            if (capsuleMesh != null) capsuleMesh.enabled = false;
+
+            // trigger wakeup animation
+            Animator anim = player.GetComponentInChildren<Animator>();
+            if (anim != null)
+                anim.SetTrigger("wakeup");
+
+            // wait for animation to finish then show capsule again
+            yield return new WaitForSeconds(2f);
+            if (capsuleMesh != null) capsuleMesh.enabled = true;
+        }
     }
 
     public void getFood()
