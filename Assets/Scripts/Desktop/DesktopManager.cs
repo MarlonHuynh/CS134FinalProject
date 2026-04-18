@@ -12,7 +12,8 @@ public class DesktopManager : MonoBehaviour
     public GameObject shopPanel;
 
     [Header("Points")]
-    public TextMeshProUGUI pointsText;
+    public TextMeshProUGUI desktopPointsText;
+    public TextMeshProUGUI shopPointsText; 
     public int captchaPoints = 0;
 
     void Start()
@@ -48,6 +49,14 @@ public class DesktopManager : MonoBehaviour
     public void AddPoints(int amount)
     {
         captchaPoints += amount;
-        pointsText.text = "Points: " + captchaPoints;
+        desktopPointsText.text = "Points: " + captchaPoints;
+        shopPointsText.text = "Points: " + captchaPoints;
+    }
+
+    public void subtractPoints(int amount)
+    {
+        captchaPoints -= amount;
+        desktopPointsText.text = "Points: " + captchaPoints;
+        shopPointsText.text = "Points: " + captchaPoints;
     }
 }

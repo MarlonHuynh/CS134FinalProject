@@ -10,7 +10,7 @@ public class ShopManager : MonoBehaviour
     {
         if (desktopManager.captchaPoints >= 3)
         {
-            desktopManager.captchaPoints -= 3; 
+            desktopManager.subtractPoints(3); 
             goalsManager.getFood(); 
         }
     }
@@ -18,7 +18,7 @@ public class ShopManager : MonoBehaviour
     {
         if (desktopManager.captchaPoints >= 1)
         {
-            desktopManager.captchaPoints -= 1; 
+            desktopManager.subtractPoints(1); 
             meditationRoomManager.openMeditationRoom.openMeditationDoor(); 
         }
     }
