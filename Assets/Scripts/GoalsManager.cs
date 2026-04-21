@@ -16,12 +16,13 @@ public class GoalsManager : MonoBehaviour
     public GameObject holdingBG; 
 
     public bool goalUseComputer, goalEatFood, goalMeditate, goalSleep; 
-    public bool holdingFood; 
+    public bool holdingFood, foodSlotOpen; 
     public GameObject player;
 
     void Start()
     {
         holdingFood = false; 
+        foodSlotOpen = false; 
         day = 1; 
         goalText.text = "Use Computer"; 
         resetGoals(); 
@@ -31,11 +32,12 @@ public class GoalsManager : MonoBehaviour
 
     void Update()
     {
+        /*
         if (Input.GetKeyUp(KeyCode.L))
         {
             goalUseComputer = true; 
             updateGoalText(); 
-        }
+        }*/
     }
     void resetGoals()
     {
@@ -60,12 +62,12 @@ public class GoalsManager : MonoBehaviour
             updateDayText(); 
         }
     }
-
-    void updateGoalText()
+ 
+    public void updateGoalText()
     {
         if (!goalUseComputer)
         {
-            goalText.text = "Use Computer"; 
+            goalText.text = "Do Work on Computer"; 
             return; 
         }
         else if (!goalEatFood)
@@ -122,10 +124,10 @@ public class GoalsManager : MonoBehaviour
     }
 
     public void getFood()
-    {
+    { 
         holdingBG.SetActive(true); 
         itemUIImage.sprite = foodSprite; 
-        holdingFood = true; 
+        holdingFood = true;  
     }
 
     public void consumeFood()

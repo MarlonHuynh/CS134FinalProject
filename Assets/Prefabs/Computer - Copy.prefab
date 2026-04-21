@@ -1585,6 +1585,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: eb9e7328250444343aa1ffd394ba00a5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::CaptchaManager
+  goalsManager: {fileID: 0}
   desktopManager: {fileID: 8716093627614517064}
   instructionText: {fileID: 2411936198877045240}
   stageText: {fileID: 7282049467821335851}
@@ -9596,7 +9597,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &657564503601527646
 RectTransform:
   m_ObjectHideFlags: 0

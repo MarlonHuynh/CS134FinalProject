@@ -11,7 +11,8 @@ public class ShopManager : MonoBehaviour
         if (desktopManager.captchaPoints >= 3)
         {
             desktopManager.subtractPoints(3); 
-            goalsManager.getFood(); 
+            goalsManager.foodSlotOpen = true; 
+            goalsManager.updateGoalText(); 
         }
     }
     public void purchaseMeditationRoomDoorOpen()

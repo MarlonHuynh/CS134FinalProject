@@ -7,6 +7,7 @@ using TMPro;
 public class CaptchaManager : MonoBehaviour
 {
     [Header("References")]
+    public GoalsManager goalsManager; 
     public DesktopManager desktopManager;
     public TextMeshProUGUI instructionText;
     public TextMeshProUGUI stageText;
@@ -165,6 +166,8 @@ public class CaptchaManager : MonoBehaviour
             stageText.text = "Verified";
             submitButton.interactable = false;
             _isAnimating = false;
+            // Update use computer goal
+            goalsManager.goalUseComputer = true; 
         }
         else
         {

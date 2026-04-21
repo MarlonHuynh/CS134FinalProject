@@ -9998,7 +9998,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e06015a80e6cd2d4f8cc5a4a62cf5bb1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: '::'
-  goalsCanvas: {fileID: 825874112}
+  goalsCanvas: {fileID: 1813086265}
 --- !u!114 &1184731939
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -25,8 +25,9 @@ public class IsTriggerInteractionManager : MonoBehaviour
             {
                 goalsManager.meditate(); 
             }
-            else if (inFoodDispenserTriggerRange)
+            else if (inFoodDispenserTriggerRange && goalsManager.foodSlotOpen)
             {
+                Debug.Log("Getting food! (IsTriggerInteractionManager)");
                 goalsManager.getFood();  
             }
             else if (inKitchenTriggerRange)
