@@ -96,10 +96,19 @@ public class InteractionManager : MonoBehaviour
             goalsManager.meditate(); 
         }
         else if (lastKnownInteractable == foodSlotI){ 
-            goalsManager.getFood();  
+            bool foodSlotOpen = goalsManager.getFood();  
+            if (!foodSlotOpen){
+                StartCoroutine(HintCoroutine("You need to purchase food first...", 3f)); 
+            }
         }
         else if (lastKnownInteractable == KitchenI){ 
-            goalsManager.consumeFood();  
+            if (goalsManager.holdingFood){
+                goalsManager.consumeFood();  
+            }
+            else
+            {
+                StartCoroutine(HintCoroutine("The perfect spot to eat your nutritional paste, if you had any.", 3f)); 
+            }
         }
         
     }

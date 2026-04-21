@@ -130,11 +130,18 @@ public class GoalsManager : MonoBehaviour
         }
     }
 
-    public void getFood()
+    public bool getFood()
     { 
-        holdingBG.SetActive(true); 
-        itemUIImage.sprite = foodSprite; 
-        holdingFood = true;  
+        if (foodSlotOpen){
+            holdingBG.SetActive(true); 
+            itemUIImage.sprite = foodSprite; 
+            holdingFood = true;  
+            return true; 
+        }
+        else
+        {
+            return false; 
+        }
     }
 
     public void consumeFood()
