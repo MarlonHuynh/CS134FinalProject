@@ -19,7 +19,7 @@ public class IsTriggerInteractionManager : MonoBehaviour
         {
             if (inBedTriggerRange)
             {
-                goalsManager.playSleepCutscene();  
+                //goalsManager.playSleepCutscene();  
             }
             else if (inMeditationRoomTriggerRange)
             {

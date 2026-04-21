@@ -15,16 +15,15 @@ public class GoalsManager : MonoBehaviour
     public GameObject sleepBG; 
     public GameObject holdingBG; 
 
-    public bool goalUseComputer, goalEatFood, goalMeditate, goalSleep; 
+    public bool goalUseComputer, goalEatFood, goalMeditate; 
     public bool holdingFood, foodSlotOpen; 
     public GameObject player;
 
     void Start()
     {
         holdingFood = false; 
-        foodSlotOpen = false; 
-        day = 1; 
-        goalText.text = "Use Computer"; 
+        foodSlotOpen = false;  
+        day = 1;  
         resetGoals(); 
         updateDayText(); 
         playSleepCutscene_ButDontMarkGoal(); 
@@ -43,8 +42,8 @@ public class GoalsManager : MonoBehaviour
     {
         goalUseComputer = false; 
         goalEatFood = false; 
-        goalMeditate = false; 
-        goalSleep = false; 
+        goalMeditate = false;  
+        updateGoalText(); 
     }
 
     void updateDayText()
@@ -53,16 +52,7 @@ public class GoalsManager : MonoBehaviour
         dayTextInSleepCutscene.text = "Day " + day; 
     }
 
-    void checkAndProgressDay()
-    {
-        if (goalUseComputer && goalEatFood && goalMeditate && goalSleep){
-            resetGoals(); 
-            updateGoalText(); 
-            day += 1; 
-            updateDayText(); 
-        }
-    }
- 
+    
     public void updateGoalText()
     {
         if (!goalUseComputer)
@@ -80,28 +70,45 @@ public class GoalsManager : MonoBehaviour
             goalText.text = "Meditate"; 
             return; 
         }
-        else if (!goalSleep)
+        else
         {
             goalText.text = "Sleep"; 
             return; 
         }
     }
 
-    public void playSleepCutscene()
-    {
-        sleepBG.SetActive(true); 
-        StartCoroutine(delayCoroutine(2f)); 
-        goalSleep = true; 
-        checkAndProgressDay(); 
-    }
+    // Returns false if not met conditions for sleeping
+    public bool checkIfCanSleepAndSleepIfAble(){
+        // Check if fulfilled conditions for sleeping
+        if (goalUseComputer && goalEatFood && goalMeditate){
+            // Play sleep cutscene
+            sleepBG.SetActive(true); 
+            StartCoroutine(delayCoroutine(2f));  
+            // Reset Goals
+            resetGoals();  
+            updateGoalText(); 
+            // Update day text
+            day += 1; 
+            updateDayText();  
+            return true; 
+        }
+        else{
+            Debug.Log("Cannot sleep. Have not finished all daily tasks."); 
+            return false; 
+        }
+    } 
 
     public void playSleepCutscene_ButDontMarkGoal()
     {
+        // Play sleep cutscene
         sleepBG.SetActive(true); 
         StartCoroutine(delayCoroutine(2f));  
+        // Reset Goals
+        resetGoals();  
         updateGoalText(); 
     }
-  IEnumerator delayCoroutine(float delay)
+
+    IEnumerator delayCoroutine(float delay)
     {
         yield return new WaitForSeconds(delay);  
         sleepBG.SetActive(false);
