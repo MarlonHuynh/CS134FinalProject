@@ -2,11 +2,11 @@ using UnityEngine;
 using UnityEngine.UI; 
 using TMPro;
 using System.Collections;
+using System.Diagnostics;
 
 public class GoalsManager : MonoBehaviour
-{
-    public int dayIncludingFillerDays; // Date including filler days
-    public int trueDay; // Day to keep track of plot
+{ 
+    [Header("Refs")]
     public ChatManager chatManager; 
     public TMP_Text dayTextInSleepCutscene;
     public TMP_Text dayTextInGoalBar;      
@@ -15,9 +15,14 @@ public class GoalsManager : MonoBehaviour
     public Sprite foodSprite; 
     public GameObject sleepBG; 
     public GameObject holdingBG; 
-    public bool goalUseComputer, goalEatFood, goalMeditate; 
-    public bool holdingFood, foodSlotOpen; 
     public GameObject player;
+
+    [Header("Internal Vars for debugging (DONT EDIT)")]
+    public int dayIncludingFillerDays; // Day including filler days
+    public int trueDay; // Day to keep track of plot
+    public bool goalUseComputer, goalEatFood, goalMeditate; 
+    public bool holdingFood, foodSlotOpen;  
+    public int AIAngerMeter; 
 
     void Start()
     {
@@ -25,21 +30,13 @@ public class GoalsManager : MonoBehaviour
         foodSlotOpen = false;  
         dayIncludingFillerDays = 1;  
         trueDay = 1; 
+        AIAngerMeter = 0; 
         resetGoals(); 
         updateDayText(); 
-        playSleepCutscene_ButDontMarkGoal(); 
+        initialSleepCutscene(); 
         chatManager.switchTextBasedOnDay(dayIncludingFillerDays); 
-    }
-
-    void Update()
-    {
-        /*
-        if (Input.GetKeyUp(KeyCode.L))
-        {
-            goalUseComputer = true; 
-            updateGoalText(); 
-        }*/
-    }
+    } 
+    
     void resetGoals()
     {
         goalUseComputer = false; 
@@ -55,7 +52,7 @@ public class GoalsManager : MonoBehaviour
     }
 
     
-    public void updateGoalText()
+    public void updateGoalText() // Update goal text in order of goals completion
     {
         if (!goalUseComputer)
         {
@@ -78,8 +75,7 @@ public class GoalsManager : MonoBehaviour
             return; 
         }
     }
-
-    // Returns false if not met conditions for sleeping
+ 
     public void checkIfTasksCompletedAndSleep(){
         // Check if fulfilled conditions for sleeping
         if (goalUseComputer && goalEatFood && goalMeditate){
@@ -97,6 +93,8 @@ public class GoalsManager : MonoBehaviour
             chatManager.enableChat(); 
             chatManager.switchTextBasedOnDay(trueDay); 
             // TODO : RESET CAPTCHAs so player can get more points 
+
+
         } 
         else{ // Sleep without completing tasks
             // Play sleep cutscene
@@ -108,13 +106,22 @@ public class GoalsManager : MonoBehaviour
             // Update day text
             dayIncludingFillerDays += 1; 
             updateDayText();   
-            // Update chats
+            // Restrict chat as punishment
             chatManager.restrictChat();  
             // TODO : RESET CAPTCHAs so player can get more points 
+
+            
+            // Increment anger counter
+            AIAngerMeter += 1; 
+            if (AIAngerMeter >= 3)
+            { 
+                // Trigger Meatgrinder ending
+                
+            }
         }
     } 
 
-    public void playSleepCutscene_ButDontMarkGoal()
+    public void initialSleepCutscene() // Initial sleep cutscene without updating date - PLAYS ONCE. 
     {
         // Play sleep cutscene
         sleepBG.SetActive(true); 
@@ -122,6 +129,9 @@ public class GoalsManager : MonoBehaviour
         // Reset Goals
         resetGoals();  
         updateGoalText(); 
+        // Update chats based on true day
+        chatManager.enableChat(); 
+        chatManager.switchTextBasedOnDay(trueDay); 
     }
 
     IEnumerator sleepCoroutine(float delay)

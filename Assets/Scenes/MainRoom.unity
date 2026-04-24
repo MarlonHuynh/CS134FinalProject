@@ -9116,8 +9116,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4a1acda8ec18c784b86cc3926c7028aa, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::GoalsManager
-  dayIncludingFillerDays: 0
-  trueDay: 0
   chatManager: {fileID: 1513273933}
   dayTextInSleepCutscene: {fileID: 1951507162}
   dayTextInGoalBar: {fileID: 1174361574}
@@ -9126,12 +9124,15 @@ MonoBehaviour:
   foodSprite: {fileID: 21300000, guid: 940f12ff7c4985b4392c8fa4c9b1d1e9, type: 3}
   sleepBG: {fileID: 128632661}
   holdingBG: {fileID: 872444068}
+  player: {fileID: 1184731932}
+  dayIncludingFillerDays: 0
+  trueDay: 0
   goalUseComputer: 0
   goalEatFood: 0
   goalMeditate: 0
   holdingFood: 0
   foodSlotOpen: 0
-  player: {fileID: 1184731932}
+  AIAngerMeter: 0
 --- !u!114 &950631481
 MonoBehaviour:
   m_ObjectHideFlags: 0

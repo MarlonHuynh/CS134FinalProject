@@ -18,7 +18,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &6528571082481712514
 RectTransform:
   m_ObjectHideFlags: 0
@@ -2953,7 +2953,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2f7631aea6e0e794582ffc2b5f51ee19, type: 3}
   m_Name: 
   m_EditorClassIdentifier: '::'
-  goalsManager: {fileID: 0}
   disabledChatWarningObj: {fileID: 0}
   text1BG: {fileID: 0}
   text2BG: {fileID: 0}

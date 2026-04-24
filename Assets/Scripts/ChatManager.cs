@@ -3,8 +3,7 @@ using UnityEngine.UI;
 using TMPro; 
 
 public class ChatManager : MonoBehaviour
-{
-    public GoalsManager goalsManager; 
+{ 
     public GameObject disabledChatWarningObj; 
     public GameObject text1BG, text2BG, text3BG, text4BG, text5BG, text6BG; 
     public TMP_Text text1, text2, text3, text4, text5, text6; 
