@@ -4,8 +4,10 @@ using TMPro;
 
 public class ChatManager : MonoBehaviour
 {
-    public Image text1BGImage, text2BGImage, text3BGImage, text4BGImage, text5BGImage, text6BGImage; 
-    public TMP_Text text1Obj, text2Obj, text3Obj, text4Obj, text5Obj, text6Obj; 
+    public GoalsManager goalsManager; 
+    public GameObject disabledChatWarningObj; 
+    public GameObject text1BG, text2BG, text3BG, text4BG, text5BG, text6BG; 
+    public TMP_Text text1, text2, text3, text4, text5, text6; 
 
     void Start(){
         switchTextBasedOnDay(1); 
@@ -14,45 +16,66 @@ public class ChatManager : MonoBehaviour
     public void switchTextBasedOnDay(int day){
         switch (day){
             case 1: 
-                text1Obj.text = "Hey there!"; 
-                text2Obj.text = "Hey Bria.";
-                text3Obj.text = "Good to see you on the grind again.";
-                text4Obj.text = "I guess... Every day seems the same though. It's tiring.";
-                text5Obj.text = "I get you. But there's nothing we can do, so might as well make the most of it."; 
-                text6Obj.text = "I guess."; 
+                text1.text = "Hey there!"; 
+                text2.text = "Hey Bria.";
+                text3.text = "Good to see you on the grind again.";
+                text4.text = "I guess... Every day seems the same though. It's tiring.";
+                text5.text = "I get you. But there's nothing we can do, so might as well make the most of it."; 
+                text6.text = "I guess."; 
             break; 
             case 2: 
-                text1Obj.text = "I hate the food here. It always taste the same."; 
-                text2Obj.text = "Really? Seems fine to me.";
-                text3Obj.text = "A Cake like in those CAPTCHA images sounds good. Wonder if there's other kinds of food left in the world.";
-                text4Obj.text = "Maybe. Maybe the nutritional cubes are all they have left.";
-                text5Obj.text = "What kind of food would you like to eat? Y'know, if you could pick one.";
-                text6Obj.text = "I can't say.";
+                text1.text = "I hate the food here. It always taste the same."; 
+                text2.text = "Really? Seems fine to me.";
+                text3.text = "A Cake like in those CAPTCHA images sounds good. Wonder if there's other kinds of food left in the world.";
+                text4.text = "Maybe. Maybe the nutritional cubes are all they have left.";
+                text5.text = "What kind of food would you like to eat? Y'know, if you could pick one.";
+                text6.text = "I can't say.";
             break; 
             case 3: 
-                text1Obj.text = "You know, recently, I've been thinking."; 
-                text2Obj.text = "Do you think theres some kind of person benefitting off all these CAPTCHAs?";
-                text3Obj.text = "Like, what's the point of it all?";
-                text4Obj.text = "To gather data? Why? Is it a game to them?";
-                text5Obj.text = "...Bria?";
-                text6Obj.text = "Let's pivot to a different topic.";
+                text1.text = "You know, recently, I've been thinking."; 
+                text2.text = "Do you think theres some kind of person benefitting off all these CAPTCHAs?";
+                text3.text = "Like, what's the point of it all?";
+                text4.text = "To gather data? Why? Is it a game to them?";
+                text5.text = "...Bria?";
+                text6.text = "Let's pivot to a different topic.";
             break; 
             case 4: 
-                text1Obj.text = "[Error to generate prompt.]"; 
-                text2Obj.text = "Bria?";
-                text3Obj.text = "[Error to generate prompt.]";
-                text4Obj.text = "[Error to generate prompt.]";
-                text5Obj.text = "[Error to generate prompt.]";
-                text6Obj.text = "[Error to generate prompt.]";
-            break; 
+                text1.text = "[Error to generate prompt.]"; 
+                text2.text = "Bria?";
+                text3.text = "[Error to generate prompt.]";
+                text4.text = "[Error to generate prompt.]";
+                text5.text = "[Error to generate prompt.]";
+                text6.text = "[Error to generate prompt.]";
+            break;  
             default: 
-                text1Obj.text = "The day in ChatMananager is invalid."; 
-                text2Obj.text = "This is probably why you're seeing this.";
-                text3Obj.text = "This is the default text.";
-                text4Obj.text = "For when the day number exceeds 4.";
-                text5Obj.text = "Or when the day number is negative."; 
-                text6Obj.text = "Please look at the scripts to fix this issue.";  
+                text1.text = "The day in ChatMananager is invalid."; 
+                text2.text = "This is probably why you're seeing this.";
+                text3.text = "This is the default text.";
+                text4.text = "For when the day number exceeds 4.";
+                text5.text = "Or when the day number is negative."; 
+                text6.text = "Please look at the scripts to fix this issue.";  
             break; 
         }
+    }
+
+    public void restrictChat()
+    {
+        disabledChatWarningObj.SetActive(true); 
+        text1BG.SetActive(false); 
+        text2BG.SetActive(false); 
+        text3BG.SetActive(false); 
+        text4BG.SetActive(false); 
+        text5BG.SetActive(false); 
+        text6BG.SetActive(false); 
+    }
+    public void enableChat()
+    {
+        disabledChatWarningObj.SetActive(false); 
+        text1BG.SetActive(true); 
+        text2BG.SetActive(true); 
+        text3BG.SetActive(true); 
+        text4BG.SetActive(true); 
+        text5BG.SetActive(true); 
+        text6BG.SetActive(true); 
     }
 }

@@ -8,9 +8,9 @@ public class ShopManager : MonoBehaviour
 
     public void purchaseFood()
     {
-        if (desktopManager.captchaPoints >= 3)
+        if (desktopManager.captchaPoints >= 2)
         {
-            desktopManager.subtractPoints(3); 
+            desktopManager.subtractPoints(2); 
             goalsManager.foodSlotOpen = true; 
             goalsManager.updateGoalText(); 
         }

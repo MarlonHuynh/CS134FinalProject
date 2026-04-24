@@ -1,7 +1,8 @@
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
-using System.Collections; 
+using System.Collections;
+using System.Diagnostics;
 
 public class InteractionManager : MonoBehaviour
 {
@@ -87,10 +88,7 @@ public class InteractionManager : MonoBehaviour
             pauseScreen.disablePauseScreen(); 
         }
         else if (lastKnownInteractable == BedI){ 
-            bool canSleep = goalsManager.checkIfCanSleepAndSleepIfAble(); 
-            if (!canSleep){
-                StartCoroutine(HintCoroutine("You need to finish all your daily tasks before you sleep....", 3f));  
-            }
+            goalsManager.checkIfTasksCompletedAndSleep();  
         }
         else if (lastKnownInteractable == MeditationI){ 
             goalsManager.meditate(); 

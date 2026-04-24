@@ -5,16 +5,16 @@ using System.Collections;
 
 public class GoalsManager : MonoBehaviour
 {
-    public int day; 
+    public int dayIncludingFillerDays; // Date including filler days
+    public int trueDay; // Day to keep track of plot
+    public ChatManager chatManager; 
     public TMP_Text dayTextInSleepCutscene;
     public TMP_Text dayTextInGoalBar;      
     public TMP_Text goalText;   
-
     public Image itemUIImage; 
     public Sprite foodSprite; 
     public GameObject sleepBG; 
     public GameObject holdingBG; 
-
     public bool goalUseComputer, goalEatFood, goalMeditate; 
     public bool holdingFood, foodSlotOpen; 
     public GameObject player;
@@ -23,10 +23,12 @@ public class GoalsManager : MonoBehaviour
     {
         holdingFood = false; 
         foodSlotOpen = false;  
-        day = 1;  
+        dayIncludingFillerDays = 1;  
+        trueDay = 1; 
         resetGoals(); 
         updateDayText(); 
         playSleepCutscene_ButDontMarkGoal(); 
+        chatManager.switchTextBasedOnDay(dayIncludingFillerDays); 
     }
 
     void Update()
@@ -48,8 +50,8 @@ public class GoalsManager : MonoBehaviour
 
     void updateDayText()
     {
-        dayTextInGoalBar.text = "Day " + day; 
-        dayTextInSleepCutscene.text = "Day " + day; 
+        dayTextInGoalBar.text = "Day " + dayIncludingFillerDays; 
+        dayTextInSleepCutscene.text = "Day " + dayIncludingFillerDays; 
     }
 
     
@@ -78,23 +80,37 @@ public class GoalsManager : MonoBehaviour
     }
 
     // Returns false if not met conditions for sleeping
-    public bool checkIfCanSleepAndSleepIfAble(){
+    public void checkIfTasksCompletedAndSleep(){
         // Check if fulfilled conditions for sleeping
         if (goalUseComputer && goalEatFood && goalMeditate){
             // Play sleep cutscene
             sleepBG.SetActive(true); 
-            StartCoroutine(delayCoroutine(2f));  
+            StartCoroutine(sleepCoroutine(2f));  
             // Reset Goals
             resetGoals();  
             updateGoalText(); 
             // Update day text
-            day += 1; 
-            updateDayText();  
-            return true; 
-        }
-        else{
-            Debug.Log("Cannot sleep. Have not finished all daily tasks."); 
-            return false; 
+            trueDay += 1; 
+            dayIncludingFillerDays += 1; 
+            updateDayText();   
+            // Update chats based on true day
+            chatManager.enableChat(); 
+            chatManager.switchTextBasedOnDay(trueDay); 
+            // TODO : RESET CAPTCHAs so player can get more points 
+        } 
+        else{ // Sleep without completing tasks
+            // Play sleep cutscene
+            sleepBG.SetActive(true); 
+            StartCoroutine(sleepCoroutine(2f));  
+            // Reset Goals
+            resetGoals();  
+            updateGoalText(); 
+            // Update day text
+            dayIncludingFillerDays += 1; 
+            updateDayText();   
+            // Update chats
+            chatManager.restrictChat();  
+            // TODO : RESET CAPTCHAs so player can get more points 
         }
     } 
 
@@ -102,13 +118,13 @@ public class GoalsManager : MonoBehaviour
     {
         // Play sleep cutscene
         sleepBG.SetActive(true); 
-        StartCoroutine(delayCoroutine(2f));  
+        StartCoroutine(sleepCoroutine(2f));  
         // Reset Goals
         resetGoals();  
         updateGoalText(); 
     }
 
-    IEnumerator delayCoroutine(float delay)
+    IEnumerator sleepCoroutine(float delay)
     {
         yield return new WaitForSeconds(delay);  
         sleepBG.SetActive(false);
