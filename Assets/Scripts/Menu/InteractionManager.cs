@@ -111,7 +111,7 @@ public class InteractionManager : MonoBehaviour
         
     }
 
-    IEnumerator HintCoroutine(string text, float sec){
+    public IEnumerator HintCoroutine(string text, float sec){
         hintTextObj.SetActive(true); 
         hintText.text = text; 
         yield return new WaitForSeconds(sec); 

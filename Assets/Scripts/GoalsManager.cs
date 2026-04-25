@@ -8,6 +8,7 @@ public class GoalsManager : MonoBehaviour
 { 
     [Header("Refs")]
     public ChatManager chatManager; 
+    public MeditationRoomManager meditationRoomManager; 
     public TMP_Text dayTextInSleepCutscene;
     public TMP_Text dayTextInGoalBar;      
     public TMP_Text goalText;   
@@ -182,6 +183,7 @@ public class GoalsManager : MonoBehaviour
     public void meditate()
     {
         goalMeditate = true; 
+        meditationRoomManager.playMeditationRoomCutscene(); 
         updateGoalText(); 
     }
 }
