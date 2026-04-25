@@ -15599,6 +15599,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 870724503}
     m_Modifications:
+    - target: {fileID: 17262969061348643, guid: 02c5ffd03d5460e4b8302be843e3fee2, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 267930748702108104, guid: 02c5ffd03d5460e4b8302be843e3fee2, type: 3}
       propertyPath: goalsManager
       value: 
