@@ -9,11 +9,15 @@ public class GoalsManager : MonoBehaviour
     [Header("Refs")]
     public ChatManager chatManager; 
     public MeditationRoomManager meditationRoomManager; 
+    public PlayerMovement playerMovement; 
     public TMP_Text dayTextInSleepCutscene;
     public TMP_Text dayTextInGoalBar;      
     public TMP_Text goalText;   
     public Image itemUIImage; 
     public Sprite foodSprite; 
+    public GameObject foodDisplayObj; 
+    public AudioClip eatingAudio; 
+    public AudioSource flex2DAudioSource; 
     public GameObject sleepBG; 
     public GameObject holdingBG; 
     public GameObject player;
@@ -32,6 +36,7 @@ public class GoalsManager : MonoBehaviour
         dayIncludingFillerDays = 1;  
         trueDay = 1; 
         AIAngerMeter = 0; 
+        foodDisplayObj.SetActive(false); 
         resetGoals(); 
         updateDayText(); 
         initialSleepCutscene(); 
@@ -176,8 +181,21 @@ public class GoalsManager : MonoBehaviour
         holdingBG.SetActive(false); 
         itemUIImage.sprite = null; 
         holdingFood = false; 
+        // Play eating animation
+        StartCoroutine(eatAnimation()); 
         goalEatFood = true; 
         updateGoalText(); 
+    }
+
+    private IEnumerator eatAnimation()
+    {   
+        playerMovement.disableMovement(); 
+        foodDisplayObj.SetActive(true); 
+        flex2DAudioSource.clip = eatingAudio; 
+        flex2DAudioSource.Play(); 
+        yield return new WaitForSeconds(3f); 
+        foodDisplayObj.SetActive(false); 
+        playerMovement.enableMovement(); 
     }
 
     public void meditate()
