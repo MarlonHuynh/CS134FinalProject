@@ -14,6 +14,8 @@ public class InteractionManager : MonoBehaviour
     public InteractableObject KitchenI; 
     public InteractableObject BedI; 
     public InteractableObject MeditationI; 
+    public InteractableObject MeditationDoorHintI; 
+    public InteractableObject MetalDoorHintI; 
      
     [Header("Settings")]
     public float interactRadius = 2.5f;
@@ -107,6 +109,12 @@ public class InteractionManager : MonoBehaviour
             {
                 StartCoroutine(HintCoroutine("The perfect spot to eat your nutritional paste, if you had any.", 3f)); 
             }
+        }
+        else if (lastKnownInteractable == MeditationDoorHintI){  
+            StartCoroutine(HintCoroutine("You need to purchase access to meditation room.", 3f));  
+        }
+        else if (lastKnownInteractable == MetalDoorHintI){  
+            StartCoroutine(HintCoroutine("The metal door is locked.", 3f));  
         }
         
     }

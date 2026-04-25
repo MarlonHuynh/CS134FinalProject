@@ -3,6 +3,7 @@ using System.Collections;
 
 public class OpenMeditationRoom : MonoBehaviour
 {
+    public GameObject hint; 
     public GameObject door;    
     public AudioSource doorSFXSource; 
     private bool doorOpen = false; 
@@ -38,6 +39,7 @@ public class OpenMeditationRoom : MonoBehaviour
             if (!doorOpen)
             {
                 StartCoroutine(LerpDoor(openPosition, true));
+                hint.SetActive(false); 
             }  
         } 
     }
@@ -49,8 +51,17 @@ public class OpenMeditationRoom : MonoBehaviour
             if (doorOpen)
             {
                 StartCoroutine(LerpDoor(closedPosition, false));
+                hint.SetActive(true); 
             }  
         } 
+    }
+
+    public void closeMeditationDoorImmediately()
+    {
+        door.transform.position = closedPosition; 
+        doorOpen = false; 
+        doorMoving = false;  
+        hint.SetActive(true); 
     }
 
     IEnumerator LerpDoor(Vector3 targetPosition, bool targetState)

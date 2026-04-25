@@ -2,12 +2,12 @@ using UnityEngine;
 
 public class PlayerMovement: MonoBehaviour
 {
-    public float speed = 5f;
-
+    public float speed = 5f; 
     private CharacterController _controller;
-    private Transform _cameraTransform;
-
+    private Transform _cameraTransform; 
     public bool enabledMovement; 
+    public AudioClip walkingAudio; 
+    public AudioSource walkingAudioSource; 
 
     void Start()
     {
@@ -31,6 +31,22 @@ public class PlayerMovement: MonoBehaviour
 
             Vector3 move = camForward * v + camRight * h;
             _controller.Move(move * speed * Time.deltaTime);
+
+            // Walking SFX
+            if (h != 0 || v != 0 ){
+                if (walkingAudioSource.clip != walkingAudio)
+                {
+                    walkingAudioSource.clip = walkingAudio; 
+                }
+                if (walkingAudioSource.isPlaying == false)
+                {
+                    walkingAudioSource.Play(); 
+                }
+            }
+            else
+            {
+                walkingAudioSource.clip = null;  
+            }
         }
     }
 

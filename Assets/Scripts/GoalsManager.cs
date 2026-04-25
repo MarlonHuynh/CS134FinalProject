@@ -10,6 +10,7 @@ public class GoalsManager : MonoBehaviour
     public ChatManager chatManager; 
     public MeditationRoomManager meditationRoomManager; 
     public PlayerMovement playerMovement; 
+    public ShopManager shopManager; 
     public TMP_Text dayTextInSleepCutscene;
     public TMP_Text dayTextInGoalBar;      
     public TMP_Text goalText;   
@@ -125,6 +126,10 @@ public class GoalsManager : MonoBehaviour
                 
             }
         }
+        // Reset Meditation door positioneither way
+        meditationRoomManager.openMeditationRoom.closeMeditationDoorImmediately(); 
+        // Reset purchase limits
+        shopManager.resetPurchaseLimits(); 
     } 
 
     public void initialSleepCutscene() // Initial sleep cutscene without updating date - PLAYS ONCE. 
