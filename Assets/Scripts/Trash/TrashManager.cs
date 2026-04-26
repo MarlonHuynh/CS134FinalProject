@@ -1,6 +1,6 @@
 using UnityEngine;
 using UnityEngine.UI;
-using TMPro;
+using TMPro; 
 
 public class TrashManager : MonoBehaviour
 {
@@ -92,16 +92,18 @@ public class TrashManager : MonoBehaviour
             // move trashContainer to left half
             trashContainer.anchorMin = new Vector2(0, 0);
             trashContainer.anchorMax = new Vector2(splitLeftWidth, 1);
-            trashContainer.offsetMin = Vector2.zero;
-            trashContainer.offsetMax = Vector2.zero;
+
+            trashContainer.offsetMin = new Vector2(0, -75f);
+            trashContainer.offsetMax = new Vector2(0, -75f);
         }
         else
         {
             // restore trashContainer to full width
-            trashContainer.anchorMin = new Vector2(0, 0);
+             trashContainer.anchorMin = new Vector2(0, 0);
             trashContainer.anchorMax = new Vector2(1, 1);
-            trashContainer.offsetMin = Vector2.zero;
-            trashContainer.offsetMax = Vector2.zero;
+
+            trashContainer.offsetMin = new Vector2(0, -75f);
+            trashContainer.offsetMax = new Vector2(0, -75f);
         }
     }
 }

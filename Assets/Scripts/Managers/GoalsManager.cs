@@ -125,7 +125,7 @@ public class GoalsManager : MonoBehaviour
             captchaManager.ResetForNewDay(trueDay);
 
 
-            if (trueDay >= 4)
+            if (trueDay > 4)
             {
                 // Trigger ending 2 day
                 loosePanelObj.SetActive(true); 
