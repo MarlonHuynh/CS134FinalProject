@@ -32,6 +32,7 @@ public class GoalsManager : MonoBehaviour
     public AudioClip knockingAudio; 
     public AudioSource flex2DAudioSource; 
     public AudioSource flex2DAudioSource_looping; 
+    public CaptchaManager captchaManager;
 
     [Header("Internal Vars for debugging (DONT EDIT)")]
     public int dayIncludingFillerDays; // Day including filler days
@@ -121,9 +122,10 @@ public class GoalsManager : MonoBehaviour
             // Reset purchase limits
             shopManager.resetPurchaseLimits(); 
             // TODO : RESET CAPTCHAs so player can get more points 
+            captchaManager.ResetForNewDay(trueDay);
 
 
-            if (trueDay >= 4)
+            if (trueDay > 4)
             {
                 // Trigger ending 2 day
                 loosePanelObj.SetActive(true); 
@@ -149,7 +151,7 @@ public class GoalsManager : MonoBehaviour
             // Reset purchase limits
             shopManager.resetPurchaseLimits(); 
             // TODO : RESET CAPTCHAs so player can get more points 
-
+            captchaManager.ResetForNewDay(dayIncludingFillerDays);
             
             // Increment anger counter
             AIAngerMeter += 1; 
