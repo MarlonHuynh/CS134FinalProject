@@ -1,3 +1,8 @@
+/*
+
+Purpose: Defines the interact radius and text of each interactable object
+
+*/
 using UnityEngine;
 
 public class InteractableObject : MonoBehaviour

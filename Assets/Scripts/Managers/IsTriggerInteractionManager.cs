@@ -1,6 +1,7 @@
 /*
 
-THIS IS A TEMPORARY SCRIPT TO AVOID CONFLICTS WITH INTERACTIONMANAGER + COMPUTER LOGIC. REPLACE WITH ACTUAL INTERACTION SCRIPT
+Purpose: Temporary script to test isTrigger interaction
+Note: Replaced with InteractionMananger and is currently unused. 
 
 */
 

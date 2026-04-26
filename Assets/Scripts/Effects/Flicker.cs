@@ -1,3 +1,8 @@
+/*
+
+Purpose: Flickers any object on and off
+
+*/
 using UnityEngine;
 using System.Collections;
 

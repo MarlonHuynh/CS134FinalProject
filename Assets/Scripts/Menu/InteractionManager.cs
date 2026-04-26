@@ -1,3 +1,8 @@
+/*
+
+Purpose: Handles all non-computer (in-room) interactions in the game 
+
+*/
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
@@ -6,7 +11,11 @@ using System.Diagnostics;
 
 public class InteractionManager : MonoBehaviour
 {
+    [Header("Refs")]
     public GoalsManager goalsManager; 
+    public EndingCutsceneManager endingCutsceneManager; 
+    public PlayerMovement playerMovement; 
+    public GoalsCanvasInteraction goalsCanvasInteraction; 
 
     [Header("Interactables")]
     public InteractableObject computerI;
@@ -14,6 +23,9 @@ public class InteractionManager : MonoBehaviour
     public InteractableObject KitchenI; 
     public InteractableObject BedI; 
     public InteractableObject MeditationI; 
+    public InteractableObject MeditationDoorHintI; 
+    public InteractableObject MetalDoorHintI; 
+    public InteractableObject LoosePanelI; 
      
     [Header("Settings")]
     public float interactRadius = 2.5f;
@@ -36,8 +48,14 @@ public class InteractionManager : MonoBehaviour
 
     // Storage of closest Interactable
     private InteractableObject lastKnownInteractable; 
+    public bool disableOtherInteractablesBesidesMetalDoor; 
+    public bool disableOtherInteractablesBesidesEscapePanel; 
 
 
+    void Start()
+    {
+        disableOtherInteractablesBesidesMetalDoor = false; 
+    }
     void Update()
     {
         if (_isInteracting) return;
@@ -78,14 +96,48 @@ public class InteractionManager : MonoBehaviour
         }
     }
 
-
+    // Define interaction logic 
     private void Interact()
     { 
-        if (lastKnownInteractable == computerI){
+        // Used for ending 1
+        if (disableOtherInteractablesBesidesMetalDoor == true){
+            if (lastKnownInteractable != MetalDoorHintI)
+            {
+                StartCoroutine(HintCoroutine("Answer the door.", 3f));  
+                return; 
+            }
+            else
+            {
+                // Trigger Meatgrinder ending
+                endingCutsceneManager.playEnding(1); 
+                return; 
+            }
+        }
+
+        else if (disableOtherInteractablesBesidesEscapePanel == true){
+            if (lastKnownInteractable != LoosePanelI)
+            {
+                StartCoroutine(HintCoroutine("There must be a way out...", 3f));  
+                return; 
+            }
+            else
+            {
+                // Trigger ending 2
+                endingCutsceneManager.playEnding(2); 
+                return; 
+            }
+        }
+
+        // Normal behavior of interactables in the room
+        else if (lastKnownInteractable == computerI){
             _isInteracting = true; 
             interactPromptUI.SetActive(false);
             computerView.OpenComputer(); 
             pauseScreen.disablePauseScreen(); 
+            playerMovement.disableMovement(); 
+            playerMovement.walkingAudioSource.Stop(); 
+            goalsCanvasInteraction.disableGoalsCanvas(); 
+            
         }
         else if (lastKnownInteractable == BedI){ 
             goalsManager.checkIfTasksCompletedAndSleep();  
@@ -108,21 +160,31 @@ public class InteractionManager : MonoBehaviour
                 StartCoroutine(HintCoroutine("The perfect spot to eat your nutritional paste, if you had any.", 3f)); 
             }
         }
+        else if (lastKnownInteractable == MeditationDoorHintI){  
+            StartCoroutine(HintCoroutine("You need to purchase access to meditation room.", 3f));  
+        }
+        else if (lastKnownInteractable == MetalDoorHintI){  
+            StartCoroutine(HintCoroutine("The metal door is locked.", 3f));  
+        }
         
     }
 
-    IEnumerator HintCoroutine(string text, float sec){
+    // Displays a hint if needed 
+    public IEnumerator HintCoroutine(string text, float sec){
         hintTextObj.SetActive(true); 
         hintText.text = text; 
         yield return new WaitForSeconds(sec); 
         hintTextObj.SetActive(false); 
     }
 
+    // Exiting interaction radius logic 
     public void ExitInteraction()
     {
         _isInteracting = false;
         interactPromptUI.SetActive(false);
         // After closing computer, enable the other overlay UIs like goals UI and pause UI
         pauseScreen.enablePauseScreen(); 
+        playerMovement.enableMovement(); 
+        goalsCanvasInteraction.enableGoalsCanvas(); 
     }
 }

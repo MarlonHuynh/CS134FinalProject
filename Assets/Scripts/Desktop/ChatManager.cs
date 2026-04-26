@@ -1,17 +1,27 @@
+/*
+
+Purpose: Used to manage chat feature on the computer.
+
+*/
+
+
 using UnityEngine;
 using UnityEngine.UI; 
 using TMPro; 
 
 public class ChatManager : MonoBehaviour
 { 
+    [Header("References")]
     public GameObject disabledChatWarningObj; 
     public GameObject text1BG, text2BG, text3BG, text4BG, text5BG, text6BG; 
     public TMP_Text text1, text2, text3, text4, text5, text6; 
 
+    // Initially start on true day 1 chat
     void Start(){
         switchTextBasedOnDay(1); 
     }
 
+    // Switches chats based on date
     public void switchTextBasedOnDay(int day){
         switch (day){
             case 1: 
@@ -57,6 +67,7 @@ public class ChatManager : MonoBehaviour
         }
     }
 
+    // Disables chat feature
     public void restrictChat()
     {
         disabledChatWarningObj.SetActive(true); 
@@ -67,6 +78,8 @@ public class ChatManager : MonoBehaviour
         text5BG.SetActive(false); 
         text6BG.SetActive(false); 
     }
+
+    // Enables chat feature
     public void enableChat()
     {
         disabledChatWarningObj.SetActive(false); 

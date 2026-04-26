@@ -1,3 +1,9 @@
+/*
+
+Purpose: Scrambles the date text to make it more mysterious
+Note: Currently unused
+
+*/
 using UnityEngine;
 using TMPro;
 using System.Text;

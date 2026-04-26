@@ -1,11 +1,19 @@
+/*
+
+Purpose: Turns the goals canvas on and off based on player input 
+
+*/
+
 using UnityEngine;
 using UnityEngine.UI; 
 
 public class GoalsCanvasInteraction : MonoBehaviour
 {
     public GameObject goalsCanvas; 
+    public bool goalsCanvasEnabled; 
  
     void Start(){
+        goalsCanvasEnabled = true; 
         if (goalsCanvas != null)
         {
             goalsCanvas.SetActive(true); 
@@ -14,7 +22,7 @@ public class GoalsCanvasInteraction : MonoBehaviour
 
     void Update()
     {
-        if (Input.GetKeyUp(KeyCode.F))
+        if (Input.GetKeyUp(KeyCode.F) && goalsCanvasEnabled)
         {
             if (goalsCanvas != null)
             { 
@@ -22,5 +30,16 @@ public class GoalsCanvasInteraction : MonoBehaviour
                 goalsCanvas.SetActive(!isActive);
             }
         }
+    }
+
+    public void disableGoalsCanvas()
+    {
+        goalsCanvasEnabled = false; 
+        goalsCanvas.SetActive(false);
+    }
+
+    public void enableGoalsCanvas()
+    {
+        goalsCanvasEnabled = true; 
     }
 }

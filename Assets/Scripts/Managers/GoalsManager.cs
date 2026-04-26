@@ -1,28 +1,45 @@
+/*
+
+Purpose: Manages the general gameplay loop and keeps track of goals 
+
+*/
 using UnityEngine;
 using UnityEngine.UI; 
 using TMPro;
-using System.Collections;
-using System.Diagnostics;
-
+using System.Collections; 
 public class GoalsManager : MonoBehaviour
 { 
     [Header("Refs")]
     public ChatManager chatManager; 
+    public MeditationRoomManager meditationRoomManager; 
+    public PlayerMovement playerMovement; 
+    public ShopManager shopManager; 
+    public InteractionManager interactionManager; 
     public TMP_Text dayTextInSleepCutscene;
     public TMP_Text dayTextInGoalBar;      
     public TMP_Text goalText;   
     public Image itemUIImage; 
     public Sprite foodSprite; 
+    public Sprite foodSpriteWithEye; 
+    public Sprite foodSpriteWithMetalSpoon; 
+    public GameObject foodDisplayObj; 
     public GameObject sleepBG; 
     public GameObject holdingBG; 
     public GameObject player;
+    public GameObject loosePanelObj; 
+    [Header("Audio Refs")]
+    public AudioClip eatingAudio; 
+    public AudioClip knockingAudio; 
+    public AudioSource flex2DAudioSource; 
+    public AudioSource flex2DAudioSource_looping; 
 
     [Header("Internal Vars for debugging (DONT EDIT)")]
     public int dayIncludingFillerDays; // Day including filler days
     public int trueDay; // Day to keep track of plot
     public bool goalUseComputer, goalEatFood, goalMeditate; 
     public bool holdingFood, foodSlotOpen;  
-    public int AIAngerMeter; 
+    public int AIAngerMeter;  
+    public bool angerEndingReached; 
 
     void Start()
     {
@@ -31,12 +48,16 @@ public class GoalsManager : MonoBehaviour
         dayIncludingFillerDays = 1;  
         trueDay = 1; 
         AIAngerMeter = 0; 
+        angerEndingReached = false; 
+        foodDisplayObj.SetActive(false); 
+        loosePanelObj.SetActive(false); 
         resetGoals(); 
         updateDayText(); 
         initialSleepCutscene(); 
         chatManager.switchTextBasedOnDay(dayIncludingFillerDays); 
     } 
     
+    // Resets goal
     void resetGoals()
     {
         goalUseComputer = false; 
@@ -45,6 +66,7 @@ public class GoalsManager : MonoBehaviour
         updateGoalText(); 
     }
 
+    // Updates TMPro UI 
     void updateDayText()
     {
         dayTextInGoalBar.text = "Day " + dayIncludingFillerDays; 
@@ -52,8 +74,9 @@ public class GoalsManager : MonoBehaviour
     }
 
     
-    public void updateGoalText() // Update goal text in order of goals completion
-    {
+    // Updates goal text in order of goals completion
+    public void updateGoalText() 
+    { 
         if (!goalUseComputer)
         {
             goalText.text = "Do Work on Computer"; 
@@ -76,6 +99,7 @@ public class GoalsManager : MonoBehaviour
         }
     }
  
+    // Deals with sleeping and resets goals after sleeping
     public void checkIfTasksCompletedAndSleep(){
         // Check if fulfilled conditions for sleeping
         if (goalUseComputer && goalEatFood && goalMeditate){
@@ -92,9 +116,21 @@ public class GoalsManager : MonoBehaviour
             // Update chats based on true day
             chatManager.enableChat(); 
             chatManager.switchTextBasedOnDay(trueDay); 
+            // Reset Meditation door position  
+            meditationRoomManager.openMeditationRoom.closeMeditationDoorImmediately(); 
+            // Reset purchase limits
+            shopManager.resetPurchaseLimits(); 
             // TODO : RESET CAPTCHAs so player can get more points 
 
 
+            if (trueDay >= 4)
+            {
+                // Trigger ending 2 day
+                loosePanelObj.SetActive(true); 
+                interactionManager.disableOtherInteractablesBesidesEscapePanel = true; 
+                meditationRoomManager.openMeditationRoom.openMeditationDoorImmediately(); 
+                goalText.text = "Find a way out."; 
+            }
         } 
         else{ // Sleep without completing tasks
             // Play sleep cutscene
@@ -108,6 +144,10 @@ public class GoalsManager : MonoBehaviour
             updateDayText();   
             // Restrict chat as punishment
             chatManager.restrictChat();  
+            // Reset Meditation door position  
+            meditationRoomManager.openMeditationRoom.closeMeditationDoorImmediately(); 
+            // Reset purchase limits
+            shopManager.resetPurchaseLimits(); 
             // TODO : RESET CAPTCHAs so player can get more points 
 
             
@@ -116,12 +156,21 @@ public class GoalsManager : MonoBehaviour
             if (AIAngerMeter >= 3)
             { 
                 // Trigger Meatgrinder ending
-                
+                // Change goal text
+                goalText.text = "Answer the door."; 
+                // Disable all other interactables besides metal door for ending
+                interactionManager.disableOtherInteractablesBesidesMetalDoor = true; 
+                // Play knocking sound effect
+                flex2DAudioSource_looping.clip = knockingAudio; 
+                flex2DAudioSource_looping.Play(); 
+                Debug.Log(flex2DAudioSource_looping.isPlaying);
+
             }
-        }
+        } 
     } 
 
-    public void initialSleepCutscene() // Initial sleep cutscene without updating date - PLAYS ONCE. 
+    // Initial sleep cutscene without updating date to be played on the very first day only
+    public void initialSleepCutscene() 
     {
         // Play sleep cutscene
         sleepBG.SetActive(true); 
@@ -134,6 +183,7 @@ public class GoalsManager : MonoBehaviour
         chatManager.switchTextBasedOnDay(trueDay); 
     }
 
+    // Plays wakeup animation
     IEnumerator sleepCoroutine(float delay)
     {
         yield return new WaitForSeconds(delay);  
@@ -156,6 +206,7 @@ public class GoalsManager : MonoBehaviour
         }
     }
 
+    // Updates inventory with food
     public bool getFood()
     { 
         if (foodSlotOpen){
@@ -170,18 +221,36 @@ public class GoalsManager : MonoBehaviour
         }
     }
 
+    // Consumes held food and display food eating cutscene
     public void consumeFood()
     {
+        foodSlotOpen = false; 
         holdingBG.SetActive(false); 
         itemUIImage.sprite = null; 
         holdingFood = false; 
+        // Play eating animation
+        StartCoroutine(eatAnimation()); 
         goalEatFood = true; 
         updateGoalText(); 
     }
 
+    // Disables some features while eating cutscene plays
+    private IEnumerator eatAnimation()
+    {   
+        playerMovement.disableMovement(); 
+        foodDisplayObj.SetActive(true); 
+        flex2DAudioSource.clip = eatingAudio; 
+        flex2DAudioSource.Play(); 
+        yield return new WaitForSeconds(3f); 
+        foodDisplayObj.SetActive(false); 
+        playerMovement.enableMovement(); 
+    }
+
+    // Meditate and plays cutscene 
     public void meditate()
     {
         goalMeditate = true; 
+        meditationRoomManager.playMeditationRoomCutscene(); 
         updateGoalText(); 
     }
 }

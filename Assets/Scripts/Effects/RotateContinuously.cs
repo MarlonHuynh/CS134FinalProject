@@ -1,3 +1,10 @@
+/*
+
+Purpose: Rotates object in the z direction
+Note: Used for the dodecahedron in the title screen
+
+*/
+
 using UnityEngine;
 
 public class RotateContinuously : MonoBehaviour

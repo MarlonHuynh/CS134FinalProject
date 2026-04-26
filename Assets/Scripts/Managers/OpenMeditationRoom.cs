@@ -1,8 +1,15 @@
+/*
+
+Purpose: Deals with logic regarding opening the meditation room door.
+
+*/
 using UnityEngine;
 using System.Collections;
 
 public class OpenMeditationRoom : MonoBehaviour
 {
+    [Header("Refs")]
+    public GameObject hint; 
     public GameObject door;    
     public AudioSource doorSFXSource; 
     private bool doorOpen = false; 
@@ -17,6 +24,7 @@ public class OpenMeditationRoom : MonoBehaviour
 
     void Update()
     {
+        /*
         if (Input.GetKeyUp(KeyCode.Z) && !doorMoving)
         {
             Debug.Log("Moving door!"); 
@@ -28,9 +36,9 @@ public class OpenMeditationRoom : MonoBehaviour
             {
                 StartCoroutine(LerpDoor(closedPosition, false));
             }
-        } 
+        } */
     }
-    // Unimplemented yet: For future usage when we need to open door by script
+    // Opens the door
     public void openMeditationDoor()
     {
         if (!doorMoving)
@@ -38,10 +46,11 @@ public class OpenMeditationRoom : MonoBehaviour
             if (!doorOpen)
             {
                 StartCoroutine(LerpDoor(openPosition, true));
+                hint.SetActive(false); 
             }  
         } 
     }
-    // Unimplemented yet: For future usage when we need to close door by script
+    // Closes the door (unused)
     void closeMeditationDoor()
     {
         if (!doorMoving)
@@ -49,10 +58,28 @@ public class OpenMeditationRoom : MonoBehaviour
             if (doorOpen)
             {
                 StartCoroutine(LerpDoor(closedPosition, false));
+                hint.SetActive(true); 
             }  
         } 
     }
+    // Closes the door instantly without lerping
+    public void closeMeditationDoorImmediately()
+    {
+        door.transform.position = closedPosition; 
+        doorOpen = false; 
+        doorMoving = false;  
+        hint.SetActive(true); 
+    }
 
+    public void openMeditationDoorImmediately()
+    {
+        door.transform.position = openPosition; 
+        doorOpen = false; 
+        doorMoving = false;  
+        hint.SetActive(false); 
+    }
+
+    // Slowly moves door
     IEnumerator LerpDoor(Vector3 targetPosition, bool targetState)
     {
         doorSFXSource.Play();
