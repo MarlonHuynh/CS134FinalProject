@@ -14,6 +14,8 @@ public class DesktopManager : MonoBehaviour
     [Header("Points")]
     public TextMeshProUGUI desktopPointsText;
     public TextMeshProUGUI shopPointsText; 
+    public TextMeshProUGUI workPointsText;
+
     public int captchaPoints = 0;
 
     void Start()
@@ -51,6 +53,7 @@ public class DesktopManager : MonoBehaviour
         captchaPoints += amount;
         desktopPointsText.text = "Points: " + captchaPoints;
         shopPointsText.text = "Points: " + captchaPoints;
+        if (workPointsText != null) workPointsText.text = "Points: " + captchaPoints;
     }
 
     public void subtractPoints(int amount)
@@ -58,5 +61,15 @@ public class DesktopManager : MonoBehaviour
         captchaPoints -= amount;
         desktopPointsText.text = "Points: " + captchaPoints;
         shopPointsText.text = "Points: " + captchaPoints;
+        if (workPointsText != null) workPointsText.text = "Points: " + captchaPoints;
+    }
+
+    public void CorruptPoints()
+    {
+        string corrupted = "9999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999";
+        captchaPoints = int.MaxValue; // max int internally
+        desktopPointsText.text = "Points: " + corrupted;
+        shopPointsText.text = "Points: " + corrupted;
+        if (workPointsText != null) workPointsText.text = "Points: " + corrupted;
     }
 }
