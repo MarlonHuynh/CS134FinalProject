@@ -25,6 +25,7 @@ public class InteractionManager : MonoBehaviour
     public InteractableObject MeditationI; 
     public InteractableObject MeditationDoorHintI; 
     public InteractableObject MetalDoorHintI; 
+    public InteractableObject LoosePanelI; 
      
     [Header("Settings")]
     public float interactRadius = 2.5f;
@@ -48,6 +49,7 @@ public class InteractionManager : MonoBehaviour
     // Storage of closest Interactable
     private InteractableObject lastKnownInteractable; 
     public bool disableOtherInteractablesBesidesMetalDoor; 
+    public bool disableOtherInteractablesBesidesEscapePanel; 
 
 
     void Start()
@@ -112,8 +114,22 @@ public class InteractionManager : MonoBehaviour
             }
         }
 
+        else if (disableOtherInteractablesBesidesEscapePanel == true){
+            if (lastKnownInteractable != LoosePanelI)
+            {
+                StartCoroutine(HintCoroutine("There must be a way out...", 3f));  
+                return; 
+            }
+            else
+            {
+                // Trigger ending 2
+                endingCutsceneManager.playEnding(2); 
+                return; 
+            }
+        }
+
         // Normal behavior of interactables in the room
-        if (lastKnownInteractable == computerI){
+        else if (lastKnownInteractable == computerI){
             _isInteracting = true; 
             interactPromptUI.SetActive(false);
             computerView.OpenComputer(); 

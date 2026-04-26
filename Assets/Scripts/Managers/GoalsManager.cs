@@ -24,6 +24,7 @@ public class GoalsManager : MonoBehaviour
     public GameObject sleepBG; 
     public GameObject holdingBG; 
     public GameObject player;
+    public GameObject loosePanelObj; 
     [Header("Audio Refs")]
     public AudioClip eatingAudio; 
     public AudioClip knockingAudio; 
@@ -47,6 +48,7 @@ public class GoalsManager : MonoBehaviour
         AIAngerMeter = 0; 
         angerEndingReached = false; 
         foodDisplayObj.SetActive(false); 
+        loosePanelObj.SetActive(false); 
         resetGoals(); 
         updateDayText(); 
         initialSleepCutscene(); 
@@ -112,9 +114,21 @@ public class GoalsManager : MonoBehaviour
             // Update chats based on true day
             chatManager.enableChat(); 
             chatManager.switchTextBasedOnDay(trueDay); 
+            // Reset Meditation door position  
+            meditationRoomManager.openMeditationRoom.closeMeditationDoorImmediately(); 
+            // Reset purchase limits
+            shopManager.resetPurchaseLimits(); 
             // TODO : RESET CAPTCHAs so player can get more points 
 
 
+            if (trueDay >= 4)
+            {
+                // Trigger ending 2 day
+                loosePanelObj.SetActive(true); 
+                interactionManager.disableOtherInteractablesBesidesEscapePanel = true; 
+                meditationRoomManager.openMeditationRoom.openMeditationDoorImmediately(); 
+                goalText.text = "Find a way out."; 
+            }
         } 
         else{ // Sleep without completing tasks
             // Play sleep cutscene
@@ -128,6 +142,10 @@ public class GoalsManager : MonoBehaviour
             updateDayText();   
             // Restrict chat as punishment
             chatManager.restrictChat();  
+            // Reset Meditation door position  
+            meditationRoomManager.openMeditationRoom.closeMeditationDoorImmediately(); 
+            // Reset purchase limits
+            shopManager.resetPurchaseLimits(); 
             // TODO : RESET CAPTCHAs so player can get more points 
 
             
@@ -146,11 +164,7 @@ public class GoalsManager : MonoBehaviour
                 Debug.Log(flex2DAudioSource_looping.isPlaying);
 
             }
-        }
-        // Reset Meditation door position either way
-        meditationRoomManager.openMeditationRoom.closeMeditationDoorImmediately(); 
-        // Reset purchase limits
-        shopManager.resetPurchaseLimits(); 
+        } 
     } 
 
     // Initial sleep cutscene without updating date to be played on the very first day only
@@ -208,6 +222,7 @@ public class GoalsManager : MonoBehaviour
     // Consumes held food and display food eating cutscene
     public void consumeFood()
     {
+        foodSlotOpen = false; 
         holdingBG.SetActive(false); 
         itemUIImage.sprite = null; 
         holdingFood = false; 

@@ -71,6 +71,14 @@ public class OpenMeditationRoom : MonoBehaviour
         hint.SetActive(true); 
     }
 
+    public void openMeditationDoorImmediately()
+    {
+        door.transform.position = openPosition; 
+        doorOpen = false; 
+        doorMoving = false;  
+        hint.SetActive(false); 
+    }
+
     // Slowly moves door
     IEnumerator LerpDoor(Vector3 targetPosition, bool targetState)
     {
