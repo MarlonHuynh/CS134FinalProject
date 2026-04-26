@@ -1,3 +1,8 @@
+/*
+
+Purpose: Deals with the logic pausing the game
+
+*/
 using UnityEngine;
 using Unity.Collections; 
 using UnityEngine.SceneManagement;
@@ -37,11 +42,13 @@ public class PauseScreen : MonoBehaviour
         
     }
 
+    // Enables ability to pause
     public void enablePauseScreen()
     {
         enabledPauseScreen = true; 
     }
 
+    // Disables ability to pause
     public void disablePauseScreen()
     {
         enabledPauseScreen = false; 

@@ -1,3 +1,8 @@
+/*
+
+Purpose: Makes the current object face the player
+
+*/
 using UnityEngine;
 
 public class FacePlayer : MonoBehaviour

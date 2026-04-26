@@ -1,3 +1,8 @@
+/*
+
+Purpose: Deals with player movement in the game 
+
+*/
 using UnityEngine;
 
 public class PlayerMovement: MonoBehaviour

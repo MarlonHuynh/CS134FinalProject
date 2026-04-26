@@ -1,3 +1,9 @@
+/*
+
+Purpose: Manages the meditation room including cutscenes
+
+*/
+
 using UnityEngine;
 using UnityEngine.UI; 
 using System.Collections;
@@ -75,6 +81,7 @@ public class MeditationRoomManager : MonoBehaviour
         meditationRoomCutsceneImage.color = color; 
     }
 
+    // Different backgrounds for meditation room 
     void switchToBeach(){
         floorMat.SetTexture("_BaseMap", beachFloor.texture);
         wallMat.SetTexture("_BaseMap", beachWall.texture);

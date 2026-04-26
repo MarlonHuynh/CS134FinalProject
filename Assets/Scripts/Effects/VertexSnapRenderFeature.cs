@@ -1,3 +1,8 @@
+/*
+
+Purpose: Used in tandem with shader graph to create a material whose mesh's vertices jitter like a PS1-style game
+
+*/
 using UnityEngine;
 using UnityEngine.Rendering;
 using UnityEngine.Rendering.Universal;
@@ -49,10 +54,10 @@ public class VertexSnapRenderFeature : ScriptableRendererFeature
 
             CommandBuffer cmd = CommandBufferPool.Get("Vertex Snap Pass");
 
-            // First blit: camera → temp (with material)
+            // First blit: camera > temp (with material)
             Blit(cmd, cameraColorHandle, tempColorHandle, snapMaterial);
 
-            // Second blit: temp → camera
+            // Second blit: temp > camera
             Blit(cmd, tempColorHandle, cameraColorHandle);
 
             context.ExecuteCommandBuffer(cmd);
@@ -61,7 +66,7 @@ public class VertexSnapRenderFeature : ScriptableRendererFeature
 
         public override void OnCameraCleanup(CommandBuffer cmd)
         {
-            // RTHandles are reused; no manual release needed
+            
         }
         public override void RecordRenderGraph(RenderGraph renderGraph, ContextContainer frameData)
         {

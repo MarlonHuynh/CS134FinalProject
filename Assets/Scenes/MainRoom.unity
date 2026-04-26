@@ -10057,6 +10057,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0bd1c79ae0db45d42b6861378ed01efc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EndingCutsceneManager
+  playerMovement: {fileID: 1184731935}
   endingBG: {fileID: 833491637}
   endingBGImage: {fileID: 833491639}
   bodyTextObj: {fileID: 1046480406}
@@ -10067,7 +10068,6 @@ MonoBehaviour:
   flex2DAudioSource: {fileID: 1301300244}
   flex2DAudioSource_looping: {fileID: 629677499}
   mainRoomMusicSource: {fileID: 1352073748}
-  playerMovement: {fileID: 1184731935}
 --- !u!1001 &972839693
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -11410,6 +11410,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::InteractionManager
   goalsManager: {fileID: 950631480}
   endingCutsceneManager: {fileID: 950631482}
+  playerMovement: {fileID: 1184731935}
+  goalsCanvasInteraction: {fileID: 1184731938}
   computerI: {fileID: 924007960}
   foodSlotI: {fileID: 52604823}
   KitchenI: {fileID: 1890434376}
@@ -11441,6 +11443,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: '::'
   goalsCanvas: {fileID: 825874112}
+  goalsCanvasEnabled: 0
 --- !u!1 &1193916672
 GameObject:
   m_ObjectHideFlags: 0

@@ -1,8 +1,14 @@
+/*
+
+Purpose: Deals with logic regarding opening the meditation room door.
+
+*/
 using UnityEngine;
 using System.Collections;
 
 public class OpenMeditationRoom : MonoBehaviour
 {
+    [Header("Refs")]
     public GameObject hint; 
     public GameObject door;    
     public AudioSource doorSFXSource; 
@@ -18,6 +24,7 @@ public class OpenMeditationRoom : MonoBehaviour
 
     void Update()
     {
+        /*
         if (Input.GetKeyUp(KeyCode.Z) && !doorMoving)
         {
             Debug.Log("Moving door!"); 
@@ -29,9 +36,9 @@ public class OpenMeditationRoom : MonoBehaviour
             {
                 StartCoroutine(LerpDoor(closedPosition, false));
             }
-        } 
+        } */
     }
-    // Unimplemented yet: For future usage when we need to open door by script
+    // Opens the door
     public void openMeditationDoor()
     {
         if (!doorMoving)
@@ -43,7 +50,7 @@ public class OpenMeditationRoom : MonoBehaviour
             }  
         } 
     }
-    // Unimplemented yet: For future usage when we need to close door by script
+    // Closes the door (unused)
     void closeMeditationDoor()
     {
         if (!doorMoving)
@@ -55,7 +62,7 @@ public class OpenMeditationRoom : MonoBehaviour
             }  
         } 
     }
-
+    // Closes the door instantly without lerping
     public void closeMeditationDoorImmediately()
     {
         door.transform.position = closedPosition; 
@@ -64,6 +71,7 @@ public class OpenMeditationRoom : MonoBehaviour
         hint.SetActive(true); 
     }
 
+    // Slowly moves door
     IEnumerator LerpDoor(Vector3 targetPosition, bool targetState)
     {
         doorSFXSource.Play();

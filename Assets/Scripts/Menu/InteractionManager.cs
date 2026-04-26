@@ -1,3 +1,8 @@
+/*
+
+Purpose: Handles all non-computer (in-room) interactions in the game 
+
+*/
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
@@ -6,8 +11,11 @@ using System.Diagnostics;
 
 public class InteractionManager : MonoBehaviour
 {
+    [Header("Refs")]
     public GoalsManager goalsManager; 
     public EndingCutsceneManager endingCutsceneManager; 
+    public PlayerMovement playerMovement; 
+    public GoalsCanvasInteraction goalsCanvasInteraction; 
 
     [Header("Interactables")]
     public InteractableObject computerI;
@@ -86,9 +94,10 @@ public class InteractionManager : MonoBehaviour
         }
     }
 
-
+    // Define interaction logic 
     private void Interact()
     { 
+        // Used for ending 1
         if (disableOtherInteractablesBesidesMetalDoor == true){
             if (lastKnownInteractable != MetalDoorHintI)
             {
@@ -103,11 +112,16 @@ public class InteractionManager : MonoBehaviour
             }
         }
 
+        // Normal behavior of interactables in the room
         if (lastKnownInteractable == computerI){
             _isInteracting = true; 
             interactPromptUI.SetActive(false);
             computerView.OpenComputer(); 
             pauseScreen.disablePauseScreen(); 
+            playerMovement.disableMovement(); 
+            playerMovement.walkingAudioSource.Stop(); 
+            goalsCanvasInteraction.disableGoalsCanvas(); 
+            
         }
         else if (lastKnownInteractable == BedI){ 
             goalsManager.checkIfTasksCompletedAndSleep();  
@@ -139,6 +153,7 @@ public class InteractionManager : MonoBehaviour
         
     }
 
+    // Displays a hint if needed 
     public IEnumerator HintCoroutine(string text, float sec){
         hintTextObj.SetActive(true); 
         hintText.text = text; 
@@ -146,11 +161,14 @@ public class InteractionManager : MonoBehaviour
         hintTextObj.SetActive(false); 
     }
 
+    // Exiting interaction radius logic 
     public void ExitInteraction()
     {
         _isInteracting = false;
         interactPromptUI.SetActive(false);
         // After closing computer, enable the other overlay UIs like goals UI and pause UI
         pauseScreen.enablePauseScreen(); 
+        playerMovement.enableMovement(); 
+        goalsCanvasInteraction.enableGoalsCanvas(); 
     }
 }

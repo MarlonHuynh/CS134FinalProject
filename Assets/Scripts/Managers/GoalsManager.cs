@@ -1,3 +1,8 @@
+/*
+
+Purpose: Manages the general gameplay loop and keeps track of goals 
+
+*/
 using UnityEngine;
 using UnityEngine.UI; 
 using TMPro;
@@ -19,7 +24,7 @@ public class GoalsManager : MonoBehaviour
     public GameObject sleepBG; 
     public GameObject holdingBG; 
     public GameObject player;
-    [Header("Audio Vars")]
+    [Header("Audio Refs")]
     public AudioClip eatingAudio; 
     public AudioClip knockingAudio; 
     public AudioSource flex2DAudioSource; 
@@ -48,6 +53,7 @@ public class GoalsManager : MonoBehaviour
         chatManager.switchTextBasedOnDay(dayIncludingFillerDays); 
     } 
     
+    // Resets goal
     void resetGoals()
     {
         goalUseComputer = false; 
@@ -56,6 +62,7 @@ public class GoalsManager : MonoBehaviour
         updateGoalText(); 
     }
 
+    // Updates TMPro UI 
     void updateDayText()
     {
         dayTextInGoalBar.text = "Day " + dayIncludingFillerDays; 
@@ -63,7 +70,8 @@ public class GoalsManager : MonoBehaviour
     }
 
     
-    public void updateGoalText() // Update goal text in order of goals completion
+    // Updates goal text in order of goals completion
+    public void updateGoalText() 
     { 
         if (!goalUseComputer)
         {
@@ -87,6 +95,7 @@ public class GoalsManager : MonoBehaviour
         }
     }
  
+    // Deals with sleeping and resets goals after sleeping
     public void checkIfTasksCompletedAndSleep(){
         // Check if fulfilled conditions for sleeping
         if (goalUseComputer && goalEatFood && goalMeditate){
@@ -138,13 +147,14 @@ public class GoalsManager : MonoBehaviour
 
             }
         }
-        // Reset Meditation door positioneither way
+        // Reset Meditation door position either way
         meditationRoomManager.openMeditationRoom.closeMeditationDoorImmediately(); 
         // Reset purchase limits
         shopManager.resetPurchaseLimits(); 
     } 
 
-    public void initialSleepCutscene() // Initial sleep cutscene without updating date - PLAYS ONCE. 
+    // Initial sleep cutscene without updating date to be played on the very first day only
+    public void initialSleepCutscene() 
     {
         // Play sleep cutscene
         sleepBG.SetActive(true); 
@@ -157,6 +167,7 @@ public class GoalsManager : MonoBehaviour
         chatManager.switchTextBasedOnDay(trueDay); 
     }
 
+    // Plays wakeup animation
     IEnumerator sleepCoroutine(float delay)
     {
         yield return new WaitForSeconds(delay);  
@@ -179,6 +190,7 @@ public class GoalsManager : MonoBehaviour
         }
     }
 
+    // Updates inventory with food
     public bool getFood()
     { 
         if (foodSlotOpen){
@@ -193,6 +205,7 @@ public class GoalsManager : MonoBehaviour
         }
     }
 
+    // Consumes held food and display food eating cutscene
     public void consumeFood()
     {
         holdingBG.SetActive(false); 
@@ -204,6 +217,7 @@ public class GoalsManager : MonoBehaviour
         updateGoalText(); 
     }
 
+    // Disables some features while eating cutscene plays
     private IEnumerator eatAnimation()
     {   
         playerMovement.disableMovement(); 
@@ -215,6 +229,7 @@ public class GoalsManager : MonoBehaviour
         playerMovement.enableMovement(); 
     }
 
+    // Meditate and plays cutscene 
     public void meditate()
     {
         goalMeditate = true; 
