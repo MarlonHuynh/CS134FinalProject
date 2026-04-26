@@ -10078,7 +10078,7 @@ MonoBehaviour:
   goalMeditate: 0
   holdingFood: 0
   foodSlotOpen: 0
-  AIAngerMeter: 3
+  AIAngerMeter: 0
   angerEndingReached: 0
 --- !u!114 &950631481
 MonoBehaviour:
