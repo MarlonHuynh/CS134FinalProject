@@ -16,6 +16,7 @@ public class InteractionManager : MonoBehaviour
     public EndingCutsceneManager endingCutsceneManager; 
     public PlayerMovement playerMovement; 
     public GoalsCanvasInteraction goalsCanvasInteraction; 
+    public DesktopManager desktopManager; 
 
     [Header("Interactables")]
     public InteractableObject computerI;
@@ -132,7 +133,7 @@ public class InteractionManager : MonoBehaviour
         else if (lastKnownInteractable == computerI){
             _isInteracting = true; 
             interactPromptUI.SetActive(false);
-            computerView.OpenComputer(); 
+            computerView.OpenComputer();  
             pauseScreen.disablePauseScreen(); 
             playerMovement.disableMovement(); 
             playerMovement.walkingAudioSource.Stop(); 

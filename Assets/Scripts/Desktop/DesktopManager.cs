@@ -4,6 +4,10 @@ using TMPro;
 
 public class DesktopManager : MonoBehaviour
 {
+    [Header("Refs")]
+    public ChatManager chatManager; 
+    
+    public GameObject ChatExclaimationNotif; 
     [Header("Panels")]
     public GameObject desktopPanel;
     public GameObject workPanel;
@@ -17,9 +21,11 @@ public class DesktopManager : MonoBehaviour
     public TextMeshProUGUI workPointsText;
 
     public int captchaPoints = 0;
+    public bool seenChatForTheDay = false; 
 
     void Start()
     {
+        seenChatForTheDay = false; 
         ShowDesktop();
     }
 
@@ -43,7 +49,11 @@ public class DesktopManager : MonoBehaviour
     }
 
     public void OpenWork() { SwitchTo(workPanel); }
-    public void OpenChat() { SwitchTo(chatPanel); }
+    public void OpenChat() {  
+        SwitchTo(chatPanel); 
+        seenChatForTheDay = true; 
+        turnOffNotifIfSeenChat(); 
+    }
     public void OpenTrash() { SwitchTo(trashPanel); }
     public void OpenShop() { SwitchTo(shopPanel); }
 
@@ -71,5 +81,22 @@ public class DesktopManager : MonoBehaviour
         desktopPointsText.text = "Points: " + corrupted;
         shopPointsText.text = "Points: " + corrupted;
         if (workPointsText != null) workPointsText.text = "Points: " + corrupted;
+    }
+
+    public void resetDesktopNotification()
+    {
+        ChatExclaimationNotif.SetActive(true); 
+        seenChatForTheDay = false; 
+    }
+    public void turnOffNotifIfSeenChat()
+    {
+        if (seenChatForTheDay == true)
+        { 
+            ChatExclaimationNotif.SetActive(false); 
+        } 
+    }
+    public void disableDesktopNotification()
+    {
+        ChatExclaimationNotif.SetActive(false); 
     }
 }

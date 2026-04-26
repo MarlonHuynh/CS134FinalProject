@@ -10048,6 +10048,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4a1acda8ec18c784b86cc3926c7028aa, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::GoalsManager
+  desktopManager: {fileID: 1092192425}
   chatManager: {fileID: 1513273933}
   meditationRoomManager: {fileID: 950631481}
   playerMovement: {fileID: 1184731935}
@@ -10888,6 +10889,17 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 4, y: 1, z: 8}
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &1092192425 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 8716093627614517064, guid: 02c5ffd03d5460e4b8302be843e3fee2, type: 3}
+  m_PrefabInstance: {fileID: 1371331987}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fff3fed8f633584438a7e4a9a98b1cce, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::DesktopManager
 --- !u!1 &1093237468 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: 466acc20158c3ab4bb72614ccb29ec5a, type: 3}
@@ -11481,6 +11493,7 @@ MonoBehaviour:
   endingCutsceneManager: {fileID: 950631482}
   playerMovement: {fileID: 1184731935}
   goalsCanvasInteraction: {fileID: 1184731938}
+  desktopManager: {fileID: 1092192425}
   computerI: {fileID: 924007960}
   foodSlotI: {fileID: 52604823}
   KitchenI: {fileID: 1890434376}
@@ -17052,6 +17065,14 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 8716093627614517064, guid: 02c5ffd03d5460e4b8302be843e3fee2, type: 3}
+      propertyPath: chatManager
+      value: 
+      objectReference: {fileID: 1513273933}
+    - target: {fileID: 8716093627614517064, guid: 02c5ffd03d5460e4b8302be843e3fee2, type: 3}
+      propertyPath: ChatExclaimationNotif
+      value: 
+      objectReference: {fileID: 1916395333}
     - target: {fileID: 9110376289504005330, guid: 02c5ffd03d5460e4b8302be843e3fee2, type: 3}
       propertyPath: m_IsActive
       value: 1
@@ -19860,6 +19881,11 @@ PrefabInstance:
       insertIndex: -1
       addedObject: {fileID: 1840518662}
   m_SourcePrefab: {fileID: 100100000, guid: e404102910cd91946994a98915109c77, type: 3}
+--- !u!1 &1916395333 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 4917349185852623601, guid: 02c5ffd03d5460e4b8302be843e3fee2, type: 3}
+  m_PrefabInstance: {fileID: 1371331987}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1951507160
 GameObject:
   m_ObjectHideFlags: 0

@@ -10,6 +10,7 @@ using System.Collections;
 public class GoalsManager : MonoBehaviour
 { 
     [Header("Refs")]
+    public DesktopManager desktopManager; 
     public ChatManager chatManager; 
     public MeditationRoomManager meditationRoomManager; 
     public PlayerMovement playerMovement; 
@@ -122,9 +123,10 @@ public class GoalsManager : MonoBehaviour
             meditationRoomManager.openMeditationRoom.closeMeditationDoorImmediately(); 
             // Reset purchase limits
             shopManager.resetPurchaseLimits(); 
-            // TODO : RESET CAPTCHAs so player can get more points 
+            // Reset CAPTCHAs so player can get more points 
             captchaManager.ResetForNewDay(trueDay);
-
+            // Reset notifs on desktop
+            desktopManager.resetDesktopNotification(); 
 
             if (trueDay > 4)
             {
@@ -151,9 +153,11 @@ public class GoalsManager : MonoBehaviour
             meditationRoomManager.openMeditationRoom.closeMeditationDoorImmediately(); 
             // Reset purchase limits
             shopManager.resetPurchaseLimits(); 
-            // TODO : RESET CAPTCHAs so player can get more points 
+            // Reset CAPTCHAs so player can get more points 
             captchaManager.ResetForNewDay(dayIncludingFillerDays);
-            
+            // Disable notifs on desktop
+            desktopManager.disableDesktopNotification(); 
+
             // Increment anger counter
             AIAngerMeter += 1; 
             if (AIAngerMeter >= 3)
