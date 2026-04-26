@@ -20,6 +20,8 @@ public class GoalsManager : MonoBehaviour
     public TMP_Text goalText;   
     public Image itemUIImage; 
     public Sprite foodSprite; 
+    public Sprite foodSpriteWithEye; 
+    public Sprite foodSpriteWithMetalSpoon; 
     public GameObject foodDisplayObj; 
     public GameObject sleepBG; 
     public GameObject holdingBG; 

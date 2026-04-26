@@ -65,7 +65,7 @@ public class EndingCutsceneManager : MonoBehaviour
         // Audio 
         flex2DAudioSource_looping.Stop(); 
         mainRoomMusicSource.Stop(); 
-        if (endingEnum == 1){
+        if (endingNum == 1){
             flex2DAudioSource.clip = openDoorClip; 
             flex2DAudioSource.Play(); 
         }
