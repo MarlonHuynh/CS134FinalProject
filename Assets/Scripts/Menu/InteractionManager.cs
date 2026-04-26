@@ -7,6 +7,7 @@ using System.Diagnostics;
 public class InteractionManager : MonoBehaviour
 {
     public GoalsManager goalsManager; 
+    public EndingCutsceneManager endingCutsceneManager; 
 
     [Header("Interactables")]
     public InteractableObject computerI;
@@ -38,8 +39,13 @@ public class InteractionManager : MonoBehaviour
 
     // Storage of closest Interactable
     private InteractableObject lastKnownInteractable; 
+    public bool disableOtherInteractablesBesidesMetalDoor; 
 
 
+    void Start()
+    {
+        disableOtherInteractablesBesidesMetalDoor = false; 
+    }
     void Update()
     {
         if (_isInteracting) return;
@@ -83,6 +89,20 @@ public class InteractionManager : MonoBehaviour
 
     private void Interact()
     { 
+        if (disableOtherInteractablesBesidesMetalDoor == true){
+            if (lastKnownInteractable != MetalDoorHintI)
+            {
+                StartCoroutine(HintCoroutine("Answer the door.", 3f));  
+                return; 
+            }
+            else
+            {
+                // Trigger Meatgrinder ending
+                endingCutsceneManager.playEnding(1); 
+                return; 
+            }
+        }
+
         if (lastKnownInteractable == computerI){
             _isInteracting = true; 
             interactPromptUI.SetActive(false);

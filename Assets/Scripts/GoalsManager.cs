@@ -1,9 +1,7 @@
 using UnityEngine;
 using UnityEngine.UI; 
 using TMPro;
-using System.Collections;
-using System.Diagnostics;
-
+using System.Collections; 
 public class GoalsManager : MonoBehaviour
 { 
     [Header("Refs")]
@@ -11,24 +9,29 @@ public class GoalsManager : MonoBehaviour
     public MeditationRoomManager meditationRoomManager; 
     public PlayerMovement playerMovement; 
     public ShopManager shopManager; 
+    public InteractionManager interactionManager; 
     public TMP_Text dayTextInSleepCutscene;
     public TMP_Text dayTextInGoalBar;      
     public TMP_Text goalText;   
     public Image itemUIImage; 
     public Sprite foodSprite; 
     public GameObject foodDisplayObj; 
-    public AudioClip eatingAudio; 
-    public AudioSource flex2DAudioSource; 
     public GameObject sleepBG; 
     public GameObject holdingBG; 
     public GameObject player;
+    [Header("Audio Vars")]
+    public AudioClip eatingAudio; 
+    public AudioClip knockingAudio; 
+    public AudioSource flex2DAudioSource; 
+    public AudioSource flex2DAudioSource_looping; 
 
     [Header("Internal Vars for debugging (DONT EDIT)")]
     public int dayIncludingFillerDays; // Day including filler days
     public int trueDay; // Day to keep track of plot
     public bool goalUseComputer, goalEatFood, goalMeditate; 
     public bool holdingFood, foodSlotOpen;  
-    public int AIAngerMeter; 
+    public int AIAngerMeter;  
+    public bool angerEndingReached; 
 
     void Start()
     {
@@ -37,6 +40,7 @@ public class GoalsManager : MonoBehaviour
         dayIncludingFillerDays = 1;  
         trueDay = 1; 
         AIAngerMeter = 0; 
+        angerEndingReached = false; 
         foodDisplayObj.SetActive(false); 
         resetGoals(); 
         updateDayText(); 
@@ -60,7 +64,7 @@ public class GoalsManager : MonoBehaviour
 
     
     public void updateGoalText() // Update goal text in order of goals completion
-    {
+    { 
         if (!goalUseComputer)
         {
             goalText.text = "Do Work on Computer"; 
@@ -123,7 +127,15 @@ public class GoalsManager : MonoBehaviour
             if (AIAngerMeter >= 3)
             { 
                 // Trigger Meatgrinder ending
-                
+                // Change goal text
+                goalText.text = "Answer the door."; 
+                // Disable all other interactables besides metal door for ending
+                interactionManager.disableOtherInteractablesBesidesMetalDoor = true; 
+                // Play knocking sound effect
+                flex2DAudioSource_looping.clip = knockingAudio; 
+                flex2DAudioSource_looping.Play(); 
+                Debug.Log(flex2DAudioSource_looping.isPlaying);
+
             }
         }
         // Reset Meditation door positioneither way
