@@ -23,6 +23,7 @@ public class GoalsManager : MonoBehaviour
     public Sprite foodSpriteWithEye; 
     public Sprite foodSpriteWithMetalSpoon; 
     public GameObject foodDisplayObj; 
+    public Image foodDisplayImg; 
     public GameObject sleepBG; 
     public GameObject holdingBG; 
     public GameObject player;
@@ -213,7 +214,17 @@ public class GoalsManager : MonoBehaviour
     { 
         if (foodSlotOpen){
             holdingBG.SetActive(true); 
-            itemUIImage.sprite = foodSprite; 
+            if (trueDay == 3)
+            {
+                itemUIImage.sprite = foodSpriteWithEye; 
+            }
+            else if (trueDay == 4)
+            {
+                itemUIImage.sprite = foodSpriteWithMetalSpoon; 
+            }
+            else{
+                itemUIImage.sprite = foodSprite; 
+            }
             holdingFood = true;  
             return true; 
         }
@@ -239,7 +250,18 @@ public class GoalsManager : MonoBehaviour
     // Disables some features while eating cutscene plays
     private IEnumerator eatAnimation()
     {   
-        playerMovement.disableMovement(); 
+        playerMovement.disableMovement();
+        if (trueDay == 3)
+        {
+            foodDisplayImg.GetComponent<Image>().sprite = foodSpriteWithEye; 
+        }
+        else if (trueDay == 4)
+        {
+            foodDisplayImg.GetComponent<Image>().sprite = foodSpriteWithMetalSpoon; 
+        }
+        else{
+            foodDisplayImg.GetComponent<Image>().sprite = foodSprite; 
+        }
         foodDisplayObj.SetActive(true); 
         flex2DAudioSource.clip = eatingAudio; 
         flex2DAudioSource.Play(); 
