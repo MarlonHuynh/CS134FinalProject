@@ -14,6 +14,7 @@ public class GoalsManager : MonoBehaviour
     public ChatManager chatManager; 
     public MeditationRoomManager meditationRoomManager; 
     public PlayerMovement playerMovement; 
+    public PlayerCamera playerCamera; 
     public ShopManager shopManager; 
     public InteractionManager interactionManager; 
     public TMP_Text dayTextInSleepCutscene;
@@ -26,6 +27,7 @@ public class GoalsManager : MonoBehaviour
     public GameObject foodDisplayObj; 
     public Image foodDisplayImg; 
     public GameObject sleepBG; 
+    public GameObject introObject; 
     public GameObject holdingBG; 
     public GameObject player;
     public GameObject loosePanelObj; 
@@ -43,6 +45,8 @@ public class GoalsManager : MonoBehaviour
     public bool holdingFood, foodSlotOpen;  
     public int AIAngerMeter;  
     public bool angerEndingReached; 
+    public bool waitOnIntro; 
+    public bool introActive; 
 
     void Start()
     {
@@ -52,13 +56,28 @@ public class GoalsManager : MonoBehaviour
         trueDay = 1; 
         AIAngerMeter = 0; 
         angerEndingReached = false; 
+        waitOnIntro = true; 
+        introActive = true; 
         foodDisplayObj.SetActive(false); 
         loosePanelObj.SetActive(false); 
         resetGoals(); 
         updateDayText(); 
         initialSleepCutscene(); 
         chatManager.switchTextBasedOnDay(dayIncludingFillerDays); 
+        interactionManager.disableInteraction(); 
     } 
+
+    void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.Space) && introActive)
+        { 
+            waitOnIntro = false; 
+            introActive = false; 
+            sleepBG.SetActive(false); 
+            introObject.SetActive(false);  
+            interactionManager.enableInteraction(); 
+        }
+    }
     
     // Resets goal
     void resetGoals()
@@ -192,9 +211,16 @@ public class GoalsManager : MonoBehaviour
 
     // Plays wakeup animation
     IEnumerator sleepCoroutine(float delay)
-    {
-        yield return new WaitForSeconds(delay);  
-        sleepBG.SetActive(false);
+    { 
+
+        yield return new WaitForSeconds(delay);   
+        
+        while (waitOnIntro == true)
+        {
+            yield return null; // keep waiting 1 frame until waitOnIntro is false
+        }
+
+        sleepBG.SetActive(false); 
 
         if (player != null)
         {
@@ -280,5 +306,5 @@ public class GoalsManager : MonoBehaviour
         goalMeditate = true; 
         meditationRoomManager.playMeditationRoomCutscene(); 
         updateGoalText(); 
-    }
+    } 
 }
