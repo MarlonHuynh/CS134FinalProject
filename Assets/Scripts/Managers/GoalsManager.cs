@@ -32,6 +32,7 @@ public class GoalsManager : MonoBehaviour
     public GameObject holdingBG; 
     public GameObject player;
     public GameObject loosePanelObj; 
+    public GameObject SpoonCutsceneObj; 
     [Header("Audio Refs")]
     public AudioClip eatingAudio; 
     public AudioClip knockingAudio; 
@@ -48,12 +49,14 @@ public class GoalsManager : MonoBehaviour
     public bool angerEndingReached; 
     public bool waitOnIntro; 
     public bool introActive; 
+    public bool spoonActive; 
 
     void Start()
     {
         holdingFood = false; 
         foodSlotOpen = false;  
         angerEndingReached = false;  
+        spoonActive = false; 
         foodDisplayObj.SetActive(false); 
         loosePanelObj.SetActive(false); 
 
@@ -104,6 +107,11 @@ public class GoalsManager : MonoBehaviour
             introActive = false; 
             sleepBG.SetActive(false); 
             introObject.SetActive(false);  
+        }
+        else if (Input.GetKeyDown(KeyCode.Space) && spoonActive)
+        {
+            spoonActive = false; 
+            SpoonCutsceneObj.SetActive(false); 
         }
     }
     
@@ -340,13 +348,16 @@ public class GoalsManager : MonoBehaviour
         foodDisplayObj.SetActive(true); 
         flex2DAudioSource.clip = eatingAudio; 
         flex2DAudioSource.Play(); 
-        yield return new WaitForSeconds(3f); 
+        yield return new WaitForSeconds(3f);  
+        foodDisplayObj.SetActive(false); 
+        playerMovement.enableMovement(); 
         if (trueDay == 4)
         {
             // Play spoon cutscene after done eating
+            SpoonCutsceneObj.SetActive(true); 
+            spoonActive = true; 
         }
-        foodDisplayObj.SetActive(false); 
-        playerMovement.enableMovement(); 
+
 
     }
 
