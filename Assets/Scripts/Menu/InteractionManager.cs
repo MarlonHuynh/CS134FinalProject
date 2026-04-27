@@ -6,9 +6,7 @@ Purpose: Handles all non-computer (in-room) interactions in the game
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
-using System.Collections;
-using System.Diagnostics;
-using System.Transactions;
+using System.Collections; 
 
 public class InteractionManager : MonoBehaviour
 {
@@ -57,7 +55,7 @@ public class InteractionManager : MonoBehaviour
 
     void Start()
     {
-        interactionEnabled = true; 
+        interactionEnabled = false; 
         disableOtherInteractablesBesidesEscapePanel = false; 
         disableOtherInteractablesBesidesMetalDoor = false; 
     }
@@ -82,7 +80,9 @@ public class InteractionManager : MonoBehaviour
 
     public void disableInteraction()
     {
+        Debug.Log("Changed prompt text to ''"); 
         interactionEnabled = false;  
+        promptText.text = ""; 
     }
 
     private void DetectInteractable()

@@ -12,4 +12,5 @@ public static class SaveData
     public static int captchaCurrentDay = 0;
     public static bool hasExistingSave = false;
     public static float masterVolume = 1f;
+    public static bool hasSeenIntro = false; 
 }

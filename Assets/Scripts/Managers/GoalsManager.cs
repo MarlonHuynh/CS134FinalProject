@@ -6,7 +6,8 @@ Purpose: Manages the general gameplay loop and keeps track of goals
 using UnityEngine;
 using UnityEngine.UI; 
 using TMPro;
-using System.Collections; 
+using System.Collections;
+using System.Xml.Linq;
 public class GoalsManager : MonoBehaviour
 { 
     [Header("Refs")]
@@ -52,9 +53,7 @@ public class GoalsManager : MonoBehaviour
     {
         holdingFood = false; 
         foodSlotOpen = false;  
-        angerEndingReached = false; 
-        waitOnIntro = true; 
-        introActive = true; 
+        angerEndingReached = false;  
         foodDisplayObj.SetActive(false); 
         loosePanelObj.SetActive(false); 
 
@@ -80,20 +79,31 @@ public class GoalsManager : MonoBehaviour
 
         resetGoals(); 
         updateDayText(); 
-        initialSleepCutscene(); 
-        chatManager.switchTextBasedOnDay(dayIncludingFillerDays); 
-        interactionManager.disableInteraction(); 
+        if (SaveData.hasSeenIntro == false){
+            SaveData.hasSeenIntro = true; 
+            waitOnIntro = true; 
+            introActive = true;  
+            initialSleepCutscene(); 
+        }  
+        else if (SaveData.hasSeenIntro)
+        {
+            waitOnIntro = false; 
+            introActive = false; 
+            introObject.SetActive(false);  
+            StartCoroutine(sleepCoroutine(2f));  
+        } 
+        chatManager.switchTextBasedOnDay(dayIncludingFillerDays);  
     } 
 
     void Update()
     {
+        // Press space to dismiss intro
         if (Input.GetKeyDown(KeyCode.Space) && introActive)
         { 
             waitOnIntro = false; 
             introActive = false; 
             sleepBG.SetActive(false); 
             introObject.SetActive(false);  
-            interactionManager.enableInteraction(); 
         }
     }
     
@@ -245,16 +255,17 @@ public class GoalsManager : MonoBehaviour
     // Plays wakeup animation
     IEnumerator sleepCoroutine(float delay)
     { 
-
-        yield return new WaitForSeconds(delay);   
-        
+        // Disable interaction while the day text is appearing on screen
+        interactionManager.disableInteraction(); 
+        sleepBG.SetActive(true); 
+        yield return new WaitForSeconds(delay);    
         while (waitOnIntro == true)
         {
             yield return null; // keep waiting 1 frame until waitOnIntro is false
-        }
-
-        sleepBG.SetActive(false); 
-
+        } 
+        // Reenable interaction while there is no day text on screen
+        sleepBG.SetActive(false);   
+        // Play Wake up animation
         if (player != null)
         {
             // hide capsule mesh
@@ -267,8 +278,9 @@ public class GoalsManager : MonoBehaviour
                 anim.SetTrigger("wakeup");
 
             // wait for animation to finish then show capsule again
-            yield return new WaitForSeconds(2f);
+            yield return new WaitForSeconds(4f);
             if (capsuleMesh != null) capsuleMesh.enabled = true;
+            interactionManager.enableInteraction(); 
         }
     }
 
