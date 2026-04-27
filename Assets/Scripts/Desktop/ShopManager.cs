@@ -8,7 +8,7 @@ using UnityEngine;
 
 public class ShopManager : MonoBehaviour
 {
-    [Header("Refs")]
+    [Header("Refs")] 
     public DesktopManager desktopManager; 
     public GoalsManager goalsManager; 
     public MeditationRoomManager meditationRoomManager;
@@ -42,6 +42,17 @@ public class ShopManager : MonoBehaviour
             meditationRoomManager.openMeditationRoom.openMeditationDoor(); 
             purchasedMeditationRoomForTheDay = true; 
         }
+    }
+    
+    // Change backgrounds
+    public void purchaseChangeToBeach()
+    {
+        meditationRoomManager.switchToBeach(); 
+    }
+
+    public void purchaseChangeToField()
+    {
+        meditationRoomManager.switchToGrassyField(); 
     }
 
     // Reset purchase limits (only 1 of each for now)

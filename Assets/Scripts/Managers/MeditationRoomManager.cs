@@ -82,7 +82,7 @@ public class MeditationRoomManager : MonoBehaviour
     }
 
     // Different backgrounds for meditation room 
-    void switchToBeach(){
+    public void switchToBeach(){
         floorMat.SetTexture("_BaseMap", beachFloor.texture);
         wallMat.SetTexture("_BaseMap", beachWall.texture);
         roofMat.SetTexture("_BaseMap", beachRoof.texture);
@@ -90,7 +90,7 @@ public class MeditationRoomManager : MonoBehaviour
         meditationMusicSource.Play(); 
     }
 
-    void switchToGrassyField(){
+    public void switchToGrassyField(){
         floorMat.SetTexture("_BaseMap", grassyFloor.texture);
         wallMat.SetTexture("_BaseMap", grassyWall.texture);
         roofMat.SetTexture("_BaseMap", grassyRoof.texture);

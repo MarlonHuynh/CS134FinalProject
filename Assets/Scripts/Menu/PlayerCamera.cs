@@ -5,14 +5,14 @@ public class PlayerCamera : MonoBehaviour
     [SerializeField] private float _sensX = 5f;
     [SerializeField] private float _sensY = 5f;
 
-    [SerializeField] private Transform _playerBody;
+    [SerializeField] private Transform _playerBody; 
 
     private float _rotationX;
-
+ 
     private void Awake()
-    {
+    { 
         Cursor.lockState = CursorLockMode.Locked;
-        Cursor.visible = false;
+        Cursor.visible = false; 
     }
 
     private void Update()
@@ -27,4 +27,5 @@ public class PlayerCamera : MonoBehaviour
 
         _playerBody.Rotate(Vector3.up * mouseX);
     }
+ 
 }
