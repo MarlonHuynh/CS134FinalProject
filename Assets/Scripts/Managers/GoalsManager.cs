@@ -319,7 +319,7 @@ public class GoalsManager : MonoBehaviour
         // Play eating animation
         StartCoroutine(eatAnimation()); 
         goalEatFood = true; 
-        if (trueday == 4)
+        if (trueDay == 4)
         {
             // Play spoon cutscene after done eating
         }
