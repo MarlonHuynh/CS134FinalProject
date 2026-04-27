@@ -9,6 +9,8 @@ using UnityEngine.SceneManagement;
 
 public class PauseScreen : MonoBehaviour
 {
+    public GoalsManager goalsManager;
+    public DesktopManager desktopManager;
     public bool enabledPauseScreen; 
     public bool isPaused; 
     public GameObject pauseMenu; 
@@ -37,6 +39,12 @@ public class PauseScreen : MonoBehaviour
 
         if (Input.GetKeyDown(KeyCode.Space) && isPaused && enabledPauseScreen) 
         {
+            // Save mid-day progress before leaving
+            SaveData.trueDay = goalsManager.trueDay;
+            SaveData.dayIncludingFillerDays = goalsManager.dayIncludingFillerDays;
+            SaveData.AIAngerMeter = goalsManager.AIAngerMeter;
+            SaveData.captchaPoints = desktopManager.captchaPoints;
+            SaveData.hasExistingSave = true;
             SceneManager.LoadScene("MainMenu");
         }
         
