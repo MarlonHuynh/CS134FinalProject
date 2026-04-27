@@ -52,14 +52,32 @@ public class GoalsManager : MonoBehaviour
     {
         holdingFood = false; 
         foodSlotOpen = false;  
-        dayIncludingFillerDays = 1;  
-        trueDay = 1; 
-        AIAngerMeter = 0; 
         angerEndingReached = false; 
         waitOnIntro = true; 
         introActive = true; 
         foodDisplayObj.SetActive(false); 
         loosePanelObj.SetActive(false); 
+
+        if (SaveData.hasExistingSave)
+        {
+            // Restore saved progress
+            trueDay = SaveData.trueDay;
+            dayIncludingFillerDays = SaveData.dayIncludingFillerDays;
+            AIAngerMeter = SaveData.AIAngerMeter;
+            // Restore captcha progress
+            captchaManager.ResetForNewDay(trueDay);
+            // Restore points via DesktopManager
+            desktopManager.RestorePoints(SaveData.captchaPoints);
+            AudioListener.volume = SaveData.masterVolume;
+        }
+        else
+        {
+            // Fresh start
+            dayIncludingFillerDays = 1;  
+            trueDay = 1; 
+            AIAngerMeter = 0; 
+        }
+
         resetGoals(); 
         updateDayText(); 
         initialSleepCutscene(); 
@@ -155,6 +173,13 @@ public class GoalsManager : MonoBehaviour
                 meditationRoomManager.openMeditationRoom.openMeditationDoorImmediately(); 
                 goalText.text = "Find a way out."; 
             }
+
+            // Save progress
+            SaveData.trueDay = trueDay;
+            SaveData.dayIncludingFillerDays = dayIncludingFillerDays;
+            SaveData.AIAngerMeter = AIAngerMeter;
+            SaveData.captchaPoints = desktopManager.captchaPoints;
+            SaveData.hasExistingSave = true;
         } 
         else{ // Sleep without completing tasks
             // Play sleep cutscene
@@ -193,6 +218,13 @@ public class GoalsManager : MonoBehaviour
             {
                 interactionManager.StartCoroutine(interactionManager.DelayedHintCoroutine("You forgot to complete all your tasks before sleeping. Hopefully nothing bad will happen.", 3f, 3f)); 
             }
+
+            // Save progress
+            SaveData.trueDay = trueDay;
+            SaveData.dayIncludingFillerDays = dayIncludingFillerDays;
+            SaveData.AIAngerMeter = AIAngerMeter;
+            SaveData.captchaPoints = desktopManager.captchaPoints;
+            SaveData.hasExistingSave = true;
         } 
     } 
 

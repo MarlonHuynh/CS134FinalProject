@@ -99,4 +99,12 @@ public class DesktopManager : MonoBehaviour
     {
         ChatExclaimationNotif.SetActive(false); 
     }
+    
+    public void RestorePoints(int points)
+    {
+        captchaPoints = points;
+        desktopPointsText.text = "Points: " + captchaPoints;
+        shopPointsText.text = "Points: " + captchaPoints;
+        if (workPointsText != null) workPointsText.text = "Points: " + captchaPoints;
+    }
 }
