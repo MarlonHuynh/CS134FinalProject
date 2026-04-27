@@ -130,8 +130,6 @@ GameObject:
   - component: {fileID: 117045520}
   - component: {fileID: 117045522}
   - component: {fileID: 117045521}
-  - component: {fileID: 117045524}
-  - component: {fileID: 117045523}
   m_Layer: 5
   m_Name: Title
   m_TagString: Untagged
@@ -258,30 +256,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 117045519}
   m_CullTransparentMesh: 1
---- !u!114 &117045523
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 117045519}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2b7d203334a34bb4d8828d2e13a8aa5b, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::Parallax
---- !u!114 &117045524
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 117045519}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a1fe378bfd2ed3645addbed3d85f87a8, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: '::'
 --- !u!1 &147136371
 GameObject:
   m_ObjectHideFlags: 0

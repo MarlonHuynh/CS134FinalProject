@@ -10328,6 +10328,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6c5a1c72db103ba4cade28dec0844a6e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PauseScreen
+  goalsManager: {fileID: 950631480}
+  desktopManager: {fileID: 1092192425}
   enabledPauseScreen: 0
   isPaused: 0
   pauseMenu: {fileID: 2140359220}
