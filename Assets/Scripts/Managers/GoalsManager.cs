@@ -319,10 +319,6 @@ public class GoalsManager : MonoBehaviour
         // Play eating animation
         StartCoroutine(eatAnimation()); 
         goalEatFood = true; 
-        if (trueDay == 4)
-        {
-            // Play spoon cutscene after done eating
-        }
         updateGoalText(); 
     }
 
@@ -345,8 +341,13 @@ public class GoalsManager : MonoBehaviour
         flex2DAudioSource.clip = eatingAudio; 
         flex2DAudioSource.Play(); 
         yield return new WaitForSeconds(3f); 
+        if (trueDay == 4)
+        {
+            // Play spoon cutscene after done eating
+        }
         foodDisplayObj.SetActive(false); 
         playerMovement.enableMovement(); 
+
     }
 
     // Meditate and plays cutscene 
