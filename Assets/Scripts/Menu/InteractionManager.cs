@@ -194,6 +194,16 @@ public class InteractionManager : MonoBehaviour
         hintTextObj.SetActive(false); 
     }
 
+    // Displays a hint if needed 
+    public IEnumerator DelayedHintCoroutine(string text, float sec, float delay){
+        yield return new WaitForSeconds(delay); 
+        hintTextObj.SetActive(true); 
+        hintText.text = text; 
+        yield return new WaitForSeconds(sec); 
+        hintTextObj.SetActive(false); 
+    }
+
+
     // Exiting interaction radius logic 
     public void ExitInteraction()
     {

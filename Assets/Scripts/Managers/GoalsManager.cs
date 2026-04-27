@@ -168,15 +168,14 @@ public class GoalsManager : MonoBehaviour
             updateDayText();   
             // Restrict chat as punishment
             chatManager.restrictChat();  
+            // Disable notifs on desktop
+            desktopManager.disableDesktopNotification(); 
             // Reset Meditation door position  
             meditationRoomManager.openMeditationRoom.closeMeditationDoorImmediately(); 
             // Reset purchase limits
             shopManager.resetPurchaseLimits(); 
             // Reset CAPTCHAs so player can get more points 
-            captchaManager.ResetForNewDay(dayIncludingFillerDays);
-            // Disable notifs on desktop
-            desktopManager.disableDesktopNotification(); 
-
+            captchaManager.ResetForNewDay(dayIncludingFillerDays); 
             // Increment anger counter
             AIAngerMeter += 1; 
             if (AIAngerMeter >= 3)
@@ -188,9 +187,11 @@ public class GoalsManager : MonoBehaviour
                 interactionManager.disableOtherInteractablesBesidesMetalDoor = true; 
                 // Play knocking sound effect
                 flex2DAudioSource_looping.clip = knockingAudio; 
-                flex2DAudioSource_looping.Play(); 
-                Debug.Log(flex2DAudioSource_looping.isPlaying);
-
+                flex2DAudioSource_looping.Play();  
+            }
+            else
+            {
+                interactionManager.StartCoroutine(interactionManager.DelayedHintCoroutine("You forgot to complete all your tasks before sleeping. Hopefully nothing bad will happen.", 3f, 3f)); 
             }
         } 
     } 
