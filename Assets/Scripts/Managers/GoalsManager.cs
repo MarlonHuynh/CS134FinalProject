@@ -48,17 +48,35 @@ public class GoalsManager : MonoBehaviour
     {
         holdingFood = false; 
         foodSlotOpen = false;  
-        dayIncludingFillerDays = 1;  
-        trueDay = 1; 
-        AIAngerMeter = 0; 
         angerEndingReached = false; 
         foodDisplayObj.SetActive(false); 
         loosePanelObj.SetActive(false); 
+
+        if (SaveData.hasExistingSave)
+        {
+            // Restore saved progress
+            trueDay = SaveData.trueDay;
+            dayIncludingFillerDays = SaveData.dayIncludingFillerDays;
+            AIAngerMeter = SaveData.AIAngerMeter;
+            // Restore captcha progress
+            captchaManager.ResetForNewDay(trueDay);
+            // Restore points via DesktopManager
+            desktopManager.RestorePoints(SaveData.captchaPoints);
+            AudioListener.volume = SaveData.masterVolume;
+        }
+        else
+        {
+            // Fresh start
+            dayIncludingFillerDays = 1;  
+            trueDay = 1; 
+            AIAngerMeter = 0; 
+        }
+
         resetGoals(); 
         updateDayText(); 
         initialSleepCutscene(); 
         chatManager.switchTextBasedOnDay(dayIncludingFillerDays); 
-    } 
+    }
     
     // Resets goal
     void resetGoals()
@@ -136,6 +154,13 @@ public class GoalsManager : MonoBehaviour
                 meditationRoomManager.openMeditationRoom.openMeditationDoorImmediately(); 
                 goalText.text = "Find a way out."; 
             }
+
+            // Save progress
+            SaveData.trueDay = trueDay;
+            SaveData.dayIncludingFillerDays = dayIncludingFillerDays;
+            SaveData.AIAngerMeter = AIAngerMeter;
+            SaveData.captchaPoints = desktopManager.captchaPoints;
+            SaveData.hasExistingSave = true;
         } 
         else{ // Sleep without completing tasks
             // Play sleep cutscene
@@ -173,6 +198,13 @@ public class GoalsManager : MonoBehaviour
                 Debug.Log(flex2DAudioSource_looping.isPlaying);
 
             }
+
+            // Save progress
+            SaveData.trueDay = trueDay;
+            SaveData.dayIncludingFillerDays = dayIncludingFillerDays;
+            SaveData.AIAngerMeter = AIAngerMeter;
+            SaveData.captchaPoints = desktopManager.captchaPoints;
+            SaveData.hasExistingSave = true;
         } 
     } 
 
