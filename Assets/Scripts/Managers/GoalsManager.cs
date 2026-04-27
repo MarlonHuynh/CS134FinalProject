@@ -14,6 +14,7 @@ public class GoalsManager : MonoBehaviour
     public ChatManager chatManager; 
     public MeditationRoomManager meditationRoomManager; 
     public PlayerMovement playerMovement; 
+    public PlayerCamera playerCamera; 
     public ShopManager shopManager; 
     public InteractionManager interactionManager; 
     public TMP_Text dayTextInSleepCutscene;
@@ -26,6 +27,7 @@ public class GoalsManager : MonoBehaviour
     public GameObject foodDisplayObj; 
     public Image foodDisplayImg; 
     public GameObject sleepBG; 
+    public GameObject introObject; 
     public GameObject holdingBG; 
     public GameObject player;
     public GameObject loosePanelObj; 
@@ -43,12 +45,16 @@ public class GoalsManager : MonoBehaviour
     public bool holdingFood, foodSlotOpen;  
     public int AIAngerMeter;  
     public bool angerEndingReached; 
+    public bool waitOnIntro; 
+    public bool introActive; 
 
     void Start()
     {
         holdingFood = false; 
         foodSlotOpen = false;  
         angerEndingReached = false; 
+        waitOnIntro = true; 
+        introActive = true; 
         foodDisplayObj.SetActive(false); 
         loosePanelObj.SetActive(false); 
 
@@ -76,6 +82,19 @@ public class GoalsManager : MonoBehaviour
         updateDayText(); 
         initialSleepCutscene(); 
         chatManager.switchTextBasedOnDay(dayIncludingFillerDays); 
+        interactionManager.disableInteraction(); 
+    } 
+
+    void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.Space) && introActive)
+        { 
+            waitOnIntro = false; 
+            introActive = false; 
+            sleepBG.SetActive(false); 
+            introObject.SetActive(false);  
+            interactionManager.enableInteraction(); 
+        }
     }
     
     // Resets goal
@@ -174,15 +193,14 @@ public class GoalsManager : MonoBehaviour
             updateDayText();   
             // Restrict chat as punishment
             chatManager.restrictChat();  
+            // Disable notifs on desktop
+            desktopManager.disableDesktopNotification(); 
             // Reset Meditation door position  
             meditationRoomManager.openMeditationRoom.closeMeditationDoorImmediately(); 
             // Reset purchase limits
             shopManager.resetPurchaseLimits(); 
             // Reset CAPTCHAs so player can get more points 
-            captchaManager.ResetForNewDay(dayIncludingFillerDays);
-            // Disable notifs on desktop
-            desktopManager.disableDesktopNotification(); 
-
+            captchaManager.ResetForNewDay(dayIncludingFillerDays); 
             // Increment anger counter
             AIAngerMeter += 1; 
             if (AIAngerMeter >= 3)
@@ -194,9 +212,11 @@ public class GoalsManager : MonoBehaviour
                 interactionManager.disableOtherInteractablesBesidesMetalDoor = true; 
                 // Play knocking sound effect
                 flex2DAudioSource_looping.clip = knockingAudio; 
-                flex2DAudioSource_looping.Play(); 
-                Debug.Log(flex2DAudioSource_looping.isPlaying);
-
+                flex2DAudioSource_looping.Play();  
+            }
+            else
+            {
+                interactionManager.StartCoroutine(interactionManager.DelayedHintCoroutine("You forgot to complete all your tasks before sleeping. Hopefully nothing bad will happen.", 3f, 3f)); 
             }
 
             // Save progress
@@ -224,9 +244,16 @@ public class GoalsManager : MonoBehaviour
 
     // Plays wakeup animation
     IEnumerator sleepCoroutine(float delay)
-    {
-        yield return new WaitForSeconds(delay);  
-        sleepBG.SetActive(false);
+    { 
+
+        yield return new WaitForSeconds(delay);   
+        
+        while (waitOnIntro == true)
+        {
+            yield return null; // keep waiting 1 frame until waitOnIntro is false
+        }
+
+        sleepBG.SetActive(false); 
 
         if (player != null)
         {
@@ -312,5 +339,5 @@ public class GoalsManager : MonoBehaviour
         goalMeditate = true; 
         meditationRoomManager.playMeditationRoomCutscene(); 
         updateGoalText(); 
-    }
+    } 
 }

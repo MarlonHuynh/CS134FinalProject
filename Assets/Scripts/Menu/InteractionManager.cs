@@ -8,6 +8,7 @@ using UnityEngine.UI;
 using TMPro;
 using System.Collections;
 using System.Diagnostics;
+using System.Transactions;
 
 public class InteractionManager : MonoBehaviour
 {
@@ -49,24 +50,39 @@ public class InteractionManager : MonoBehaviour
 
     // Storage of closest Interactable
     private InteractableObject lastKnownInteractable; 
+    public bool interactionEnabled; 
     public bool disableOtherInteractablesBesidesMetalDoor; 
     public bool disableOtherInteractablesBesidesEscapePanel; 
 
 
     void Start()
     {
+        interactionEnabled = true; 
+        disableOtherInteractablesBesidesEscapePanel = false; 
         disableOtherInteractablesBesidesMetalDoor = false; 
     }
     void Update()
     {
-        if (_isInteracting) return;
+        if (interactionEnabled){
+            if (_isInteracting) return;
 
-        DetectInteractable();
+            DetectInteractable();
 
-        if (_nearestInteractable != null && Input.GetKeyDown(KeyCode.E))
-        {
-            Interact();
+            if (_nearestInteractable != null && Input.GetKeyDown(KeyCode.E))
+            {
+                Interact();
+            }
         }
+    }
+
+    public void enableInteraction()
+    {
+        interactionEnabled = true;  
+    }
+
+    public void disableInteraction()
+    {
+        interactionEnabled = false;  
     }
 
     private void DetectInteractable()
@@ -177,6 +193,16 @@ public class InteractionManager : MonoBehaviour
         yield return new WaitForSeconds(sec); 
         hintTextObj.SetActive(false); 
     }
+
+    // Displays a hint if needed 
+    public IEnumerator DelayedHintCoroutine(string text, float sec, float delay){
+        yield return new WaitForSeconds(delay); 
+        hintTextObj.SetActive(true); 
+        hintText.text = text; 
+        yield return new WaitForSeconds(sec); 
+        hintTextObj.SetActive(false); 
+    }
+
 
     // Exiting interaction radius logic 
     public void ExitInteraction()
